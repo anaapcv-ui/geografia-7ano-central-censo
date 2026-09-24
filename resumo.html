@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo · Central do Censo · Geografia 7º</title>
+<style>
+:root{--fundo:#0b1526;--painel:#132038;--painel2:#1b2c4a;--ciano:#38d6e0;--ambar:#f5b544;
+ --verde:#3ddc84;--vermelho:#ff6b6b;--texto:#eaf2ff;--suave:#9db3d4;--linha:#263a5e;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+ background:radial-gradient(1200px 600px at 50% -10%,#16264a,var(--fundo));color:var(--texto);line-height:1.6;padding-bottom:60px}
+header{padding:26px 18px 20px;text-align:center;border-bottom:1px solid var(--linha);background:linear-gradient(180deg,#0e1b34,#0b1526)}
+.badge{display:inline-block;background:var(--ciano);color:#04222a;font-weight:800;padding:4px 12px;border-radius:20px;font-size:12px}
+h1{margin:12px 0 4px;font-size:24px}.sub{color:var(--suave);font-size:14px;margin:0}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+nav.abas{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+nav.abas a{color:var(--suave);text-decoration:none;font-size:13px;border:1px solid var(--linha);padding:6px 12px;border-radius:18px;background:var(--painel)}
+nav.abas a.on{background:var(--ciano);color:#04222a;font-weight:700;border-color:var(--ciano)}
+.progresso{position:sticky;top:0;z-index:5;height:6px;background:var(--painel);border-radius:3px;margin:8px 0;overflow:hidden}
+.progresso i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ciano),var(--verde));transition:.2s}
+.estacao{background:var(--painel);border:1px solid var(--linha);border-radius:18px;padding:18px 20px;margin:16px 0}
+.estacao h2{margin:0 0 4px;font-size:19px;color:var(--ciano)}
+.etag{font-size:11px;color:var(--ambar);letter-spacing:1px;text-transform:uppercase;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.card{background:#0d1a30;border:1px solid var(--linha);border-radius:12px;padding:14px}
+.card b{color:var(--ciano)}
+.flip{perspective:1000px;height:150px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip.v .flip-in{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:14px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--linha)}
+.flip-front{background:linear-gradient(135deg,#173056,#12233f)}
+.flip-front .t{font-weight:800;font-size:17px}
+.flip-front .h{font-size:12px;color:var(--suave);margin-top:6px}
+.flip-back{background:#0d1a30;transform:rotateY(180deg);font-size:13px}
+.postit{background:#f5e08a;color:#3a2c00;border-radius:10px;padding:12px 14px;margin:12px 0;box-shadow:2px 3px 8px rgba(0,0,0,.3);font-size:14px}
+.postit b{color:#7a5a00}
+.alerta{background:#2a1622;border:1px solid var(--vermelho);border-radius:12px;padding:12px 14px;margin:12px 0;font-size:14px}
+.alerta b{color:var(--vermelho)}
+.formula{background:#0d1a30;border:1px dashed var(--ciano);border-radius:10px;padding:10px 14px;margin:10px 0;text-align:center;font-size:15px;font-weight:700;color:var(--ciano)}
+.piramide{display:flex;flex-direction:column;align-items:center;gap:3px;margin:14px 0}
+.piramide .lin{background:var(--ciano);border-radius:3px;text-align:center;color:#04222a;font-size:11px;font-weight:700;padding:2px}
+.glos{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:18px;margin:18px 0}
+.glos dt{color:var(--ciano);font-weight:700;margin-top:8px}
+.glos dd{margin:0 0 4px;font-size:14px}
+.painel-salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:var(--painel);
+ border:1px solid var(--linha);border-radius:14px;padding:10px;margin:14px 0;font-size:13px}
+.painel-salvar button{background:var(--painel2);color:var(--texto);border:1px solid var(--linha);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:13px}
+.rodape-nav{display:flex;justify-content:space-between;margin:26px 0;font-size:14px}
+.rodape-nav a{color:var(--ciano);text-decoration:none;font-weight:700}
+.salvo-flag{font-size:12px;color:var(--suave)}
+</style>
+</head>
+<body>
+<header>
+  <span class="badge">GEOGRAFIA · 7º ANO</span>
+  <h1>🗺️ Resumo — Central do Censo</h1>
+  <p class="sub">Tudo o que cai na prova, em fichas rápidas · Caps. 13, 14 e 15</p>
+</header>
+<div class="wrap">
+  <nav class="abas">
+    <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+    <a href="quiz.html">🎯 Quiz</a>
+    <a href="resumo.html" class="on">🗺️ Resumo</a>
+    <a href="simulado.html">📝 Simulado</a>
+    <a href="index.html">🏠 Início</a>
+  </nav>
+  <div class="progresso"><i id="barra"></i></div>
+  <div class="painel-salvar">
+    <span class="salvo-flag" id="salvoFlag">Leitura registrada automaticamente.</span>
+    <button onclick="exportar()">📥 Exportar</button>
+    <button onclick="zerar()">🗑️ Zerar</button>
+  </div>
+
+  <p class="sub" style="text-align:center">👆 As fichas azuis <b>viram</b> quando você clica nelas.</p>
+
+  <div class="estacao">
+    <div class="etag">Estação 1 · Contagem</div>
+    <h2>População: absoluta × relativa</h2>
+    <div class="cards">
+      <div class="card"><b>População absoluta</b><br>Total de habitantes de um lugar. Muita gente = país <b>populoso</b> (China, Brasil).</div>
+      <div class="card"><b>População relativa</b> (densidade demográfica)<br>Quantas pessoas por km². Alta densidade = país <b>povoado</b>.</div>
+    </div>
+    <div class="formula">Densidade = população absoluta ÷ área (hab/km²)</div>
+    <div class="alerta"><b>⚠️ Pegadinha:</b> o Brasil é <b>populoso</b> (muita gente) mas <b>pouco povoado</b> (densidade baixa, porque o território é enorme). Malta é o contrário: pouca gente, mas muito povoada.</div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 2 · Mapa</div>
+    <h2>Distribuição da população</h2>
+    <div class="cards">
+      <div class="card"><b>Vazios demográficos</b><br>Áreas com pouca gente, por natureza difícil: desertos, regiões geladas, florestas densas.</div>
+      <div class="card"><b>No Brasil</b><br>+80% vive no <b>Nordeste, Sudeste e Sul</b> (litoral leste). Norte e Centro-Oeste juntos têm menos de 20%.</div>
+    </div>
+    <div class="postit"><b>💡 Dica:</b> a ocupação do Brasil começou no <b>litoral</b> (pau-brasil, cana) e foi para o interior. Por isso o leste é cheio e o oeste é vazio. A Amazônia (floresta densa) explica o Norte pouco povoado.</div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 3 · Fluxo</div>
+    <h2>Como a população cresce</h2>
+    <div class="formula">Crescimento vegetativo = natalidade − mortalidade</div>
+    <div class="formula">Saldo migratório = imigração − emigração</div>
+    <div class="cards">
+      <div class="card"><b>Natalidade</b>: nascimentos por mil habitantes (‰).</div>
+      <div class="card"><b>Mortalidade</b>: mortes por mil habitantes (‰).</div>
+      <div class="card"><b>Fecundidade</b>: média de filhos por mulher (15 a 49 anos).</div>
+      <div class="card"><b>Explosão demográfica</b>: crescimento muito rápido no fim do séc. XX.</div>
+    </div>
+    <div class="cards">
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Vegetativo POSITIVO</div><div class="h">clique para ver</div></div>
+        <div class="flip-face flip-back">Nasce mais gente do que morre. Ex.: Brasil.</div></div></div>
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Vegetativo NEGATIVO</div><div class="h">clique para ver</div></div>
+        <div class="flip-face flip-back">Morre mais gente do que nasce. Ex.: países da Europa.</div></div></div>
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Vegetativo NULO</div><div class="h">clique para ver</div></div>
+        <div class="flip-face flip-back">Natalidade igual à mortalidade.</div></div></div>
+    </div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 4 · Pirâmides</div>
+    <h2>Estrutura etária e pirâmide</h2>
+    <p>A <b>estrutura etária</b> mostra a população por idade e sexo. A <b>pirâmide etária</b> desenha isso: idade aumenta da base ao topo.</p>
+    <div class="piramide">
+      <div class="lin" style="width:35%">TOPO — idosos</div>
+      <div class="lin" style="width:65%">CORPO — adultos (trabalham)</div>
+      <div class="lin" style="width:100%">BASE — crianças e jovens (natalidade)</div>
+    </div>
+    <div class="postit"><b>💡 Macete:</b> BASE larga = muita criança = natalidade alta. TOPO largo = muitos idosos = expectativa de vida alta.</div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 5 · Comparação</div>
+    <h2>Pirâmides no mundo + transição demográfica</h2>
+    <div class="cards">
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Desenvolvido</div><div class="h">Alemanha, Japão</div></div>
+        <div class="flip-face flip-back">Base estreita, topo largo. Poucas crianças, muitos idosos. Natalidade baixa, expectativa de vida alta.</div></div></div>
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Subdesenvolvido</div><div class="h">Somália</div></div>
+        <div class="flip-face flip-back">Base larga, topo quase inexistente. Muitas crianças, poucos idosos. Expectativa de vida menor.</div></div></div>
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Em desenvolvimento</div><div class="h">Brasil, China</div></div>
+        <div class="flip-face flip-back">Base começando a estreitar, topo alargando devagar. No meio do caminho.</div></div></div>
+    </div>
+    <div class="card"><b>Transição demográfica</b>: passagem de altas taxas de natalidade e mortalidade para baixas. <b>Primeiro cai a mortalidade</b> (saúde, saneamento, comida); <b>depois cai a natalidade</b> (urbanização, mulher trabalhando, contracepção).</div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 6 · Registro</div>
+    <h2>O Censo e o envelhecimento</h2>
+    <div class="cards">
+      <div class="card"><b>Censo Demográfico</b><br>Pesquisa do <b>IBGE</b>, ~a cada 10 anos. Recenseadores visitam as casas. 1872: ~10 mi · 2010: +190 mi · 2022: ~203 mi.</div>
+      <div class="card"><b>Envelhecimento</b><br>Menos filhos + vida mais longa = base encolhe e topo cresce. Pirâmide vira retângulo.</div>
+      <div class="card"><b>Previdência social</b><br>Trabalhadores ativos pagam os aposentados. Mais idosos = mais pressão nas contas.</div>
+      <div class="card"><b>Estatuto do Idoso</b> (2003)<br>Garante direitos a quem tem 60 anos ou mais.</div>
+    </div>
+    <div class="alerta"><b>⚠️ Pegadinha:</b> o Censo é feito pelo <b>IBGE</b>, não pela ONU nem pelas escolas.</div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 7 · Força de trabalho</div>
+    <h2>PEA e PEI</h2>
+    <div class="cards">
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">PEA</div><div class="h">Economicamente Ativa</div></div>
+        <div class="flip-face flip-back">Em idade de trabalhar, trabalhando (ocupados) OU procurando emprego (desocupados).</div></div></div>
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">PEI</div><div class="h">Economicamente Inativa</div></div>
+        <div class="flip-face flip-back">Quem ainda não tem idade para trabalhar (crianças) ou já se aposentou.</div></div></div>
+    </div>
+    <div class="postit"><b>💡 Medidas contra o envelhecimento:</b> (1) benefícios para ter filhos; (2) aumentar a idade da aposentadoria; (3) estimular a imigração de gente em idade ativa.</div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 8 · Setores</div>
+    <h2>Setores da economia</h2>
+    <div class="cards">
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Primário</div><div class="h">clique</div></div>
+        <div class="flip-face flip-back">Agricultura, pecuária e extrativismo (tira da natureza).</div></div></div>
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Secundário</div><div class="h">clique</div></div>
+        <div class="flip-face flip-back">Indústria e construção civil (transforma matéria-prima em produtos).</div></div></div>
+      <div class="flip" onclick="this.classList.toggle('v')"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="t">Terciário</div><div class="h">clique</div></div>
+        <div class="flip-face flip-back">Comércio e serviços. É onde está a MAIORIA da PEA no Brasil.</div></div></div>
+    </div>
+    <div class="alerta"><b>⚠️ Pegadinha:</b> no Brasil a maioria trabalha no <b>terciário</b>. A mudança foi: campo (primário) → indústria (secundário) → serviços (terciário), por causa da mecanização.</div>
+  </div>
+
+  <div class="estacao">
+    <div class="etag">Estação 9 · Direitos</div>
+    <h2>Mulher, trabalho infantil e informal</h2>
+    <div class="cards">
+      <div class="card"><b>Mulher no trabalho</b><br>Ganha ~80% do salário do homem; mulher negra em desvantagem maior. Ações afirmativas: licença-maternidade (mín. 4 meses), estabilidade na gravidez, cota de candidaturas.</div>
+      <div class="card"><b>Trabalho infantil</b><br>Proibido antes dos 18 (CLT). Aprendiz só a partir dos 14. ECA (1990) e Bolsa Família protegem crianças.</div>
+      <div class="card"><b>Trabalho informal</b><br>Sem carteira assinada. Sem CLT (férias, 13º, FGTS, seguro-desemprego) e sem previdência.</div>
+    </div>
+  </div>
+
+  <div class="glos">
+    <h2 style="color:var(--ciano);margin-top:0">📚 Glossário rápido</h2>
+    <dl>
+      <dt>Demografia</dt><dd>Área da Geografia que estuda a população (crescimento, nascimentos, mortes, migrações).</dd>
+      <dt>Populoso × povoado</dt><dd>Populoso = muita gente no total. Povoado = alta densidade (gente por km²).</dd>
+      <dt>Crescimento vegetativo</dt><dd>Natalidade − mortalidade.</dd>
+      <dt>Saldo migratório</dt><dd>Imigração (entram) − emigração (saem).</dd>
+      <dt>Transição demográfica</dt><dd>Passagem de altas para baixas taxas de natalidade e mortalidade.</dd>
+      <dt>PEA / PEI</dt><dd>Ativa (trabalha ou procura emprego) / Inativa (crianças e aposentados).</dd>
+      <dt>Recenseador</dt><dd>Profissional que coleta os dados do censo.</dd>
+    </dl>
+  </div>
+
+  <div class="rodape-nav">
+    <a href="quiz.html">← Quiz</a>
+    <a href="simulado.html">Próximo: 📝 Simulado →</a>
+  </div>
+</div>
+
+<script>
+var CHAVE="geo7_censo_resumo_v1";
+var mem={};
+var estado=carregar();
+function carregar(){try{var s=localStorage.getItem(CHAVE);if(s)return JSON.parse(s);}catch(e){if(mem[CHAVE])return JSON.parse(mem[CHAVE]);}return {rolagem:0};}
+function salvar(){var s=JSON.stringify(estado);try{localStorage.setItem(CHAVE,s);}catch(e){mem[CHAVE]=s;}}
+function pctRolagem(){
+  var h=document.documentElement;
+  var max=h.scrollHeight-h.clientHeight;
+  if(max<=0) return 100;
+  return Math.min(100,Math.round(h.scrollTop/max*100));
+}
+window.addEventListener('scroll',function(){
+  var p=pctRolagem();
+  document.getElementById('barra').style.width=p+"%";
+  if(p>(estado.rolagem||0)){ estado.rolagem=p; salvar();
+    document.getElementById('salvoFlag').textContent="Leitura: "+p+"% do resumo lido"; }
+});
+function exportar(){var b=new Blob([JSON.stringify(estado,null,2)],{type:"application/json"});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download="resumo-geo7-censo.json";a.click();}
+function zerar(){estado={rolagem:0};try{localStorage.removeItem(CHAVE);}catch(e){}mem={};document.getElementById('barra').style.width="0%";document.getElementById('salvoFlag').textContent="Leitura zerada.";}
+document.getElementById('barra').style.width=(estado.rolagem||0)+"%";
+</script>
+</body>
+</html>
