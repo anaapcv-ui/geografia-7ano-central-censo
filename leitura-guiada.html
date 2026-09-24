@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Guiada · Central do Censo · Geografia 7º</title>
+<style>
+:root{
+  --fundo:#0b1526; --painel:#132038; --painel2:#1b2c4a;
+  --ciano:#38d6e0; --ciano2:#1fb6c4; --ambar:#f5b544; --verde:#3ddc84;
+  --vermelho:#ff6b6b; --texto:#eaf2ff; --suave:#9db3d4; --linha:#263a5e;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:radial-gradient(1200px 600px at 50% -10%,#16264a,var(--fundo));
+  color:var(--texto);line-height:1.6;padding-bottom:60px}
+header{padding:26px 18px 20px;text-align:center;border-bottom:1px solid var(--linha);
+  background:linear-gradient(180deg,#0e1b34,#0b1526)}
+.badge{display:inline-block;background:var(--ciano);color:#04222a;font-weight:800;
+  padding:4px 12px;border-radius:20px;font-size:12px;letter-spacing:.5px}
+h1{margin:12px 0 4px;font-size:24px}
+.sub{color:var(--suave);font-size:14px;margin:0}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+nav.abas{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+nav.abas a{color:var(--suave);text-decoration:none;font-size:13px;border:1px solid var(--linha);
+  padding:6px 12px;border-radius:18px;background:var(--painel)}
+nav.abas a.on{background:var(--ciano);color:#04222a;font-weight:700;border-color:var(--ciano)}
+.painel-salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;
+  background:var(--painel);border:1px solid var(--linha);border-radius:14px;padding:10px;margin:14px 0;font-size:13px}
+.painel-salvar button{background:var(--painel2);color:var(--texto);border:1px solid var(--linha);
+  border-radius:10px;padding:7px 12px;cursor:pointer;font-size:13px}
+.painel-salvar button:hover{border-color:var(--ciano)}
+.intro{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:18px 20px;margin:14px 0}
+.bloco{background:var(--painel);border:1px solid var(--linha);border-radius:18px;margin:16px 0;overflow:hidden;
+  opacity:.5;pointer-events:none;transition:.3s}
+.bloco.aberto{opacity:1;pointer-events:auto}
+.bloco.feito{border-color:var(--verde)}
+.cab{display:flex;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(90deg,#14264a,#132038);
+  border-bottom:1px solid var(--linha)}
+.num{background:var(--ciano);color:#04222a;font-weight:800;min-width:34px;height:34px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:15px}
+.estacao{font-size:11px;color:var(--ciano);letter-spacing:1px;text-transform:uppercase;font-weight:700}
+.cab h2{margin:2px 0 0;font-size:18px}
+.corpo{padding:18px}
+.corpo p{margin:0 0 12px}
+.cadeado{color:var(--suave);font-size:13px;padding:14px 18px;display:flex;align-items:center;gap:8px}
+.pergunta{background:var(--painel2);border:1px solid var(--linha);border-radius:12px;padding:14px;margin:12px 0}
+.pergunta.transcrita{border-color:var(--vermelho);background:#2a1622}
+.tipo{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:10px}
+.tipo.aplic{background:rgba(61,220,132,.15);color:var(--verde)}
+.tipo.conc{background:rgba(56,214,224,.15);color:var(--ciano)}
+.qtxt{margin:8px 0;font-weight:600}
+textarea{width:100%;background:#0d1a30;color:var(--texto);border:1px solid var(--linha);border-radius:10px;
+  padding:10px;font-size:14px;font-family:inherit;resize:vertical;min-height:64px}
+.aviso{border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13px;display:none}
+.aviso.amarelo{background:rgba(245,181,68,.13);border:1px solid var(--ambar);color:#ffe0a3;display:block}
+.aviso.vermelho{background:rgba(255,107,107,.13);border:1px solid var(--vermelho);color:#ffc7c7;display:block}
+.modelo{background:#0d1a30;border-left:3px solid var(--ciano);border-radius:8px;padding:10px 12px;margin:10px 0;font-size:14px;display:none}
+.modelo.ver{display:block}
+.modelo b{color:var(--ciano)}
+.chk{display:none;margin:10px 0}
+.chk.ver{display:block}
+.chk .item{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#0d1a30;border:1px solid var(--linha);border-radius:8px;padding:8px 10px;margin:6px 0;font-size:13px}
+.chk .item .bts{display:flex;gap:6px;flex-shrink:0}
+.chk .item button{border:1px solid var(--linha);background:var(--painel);color:var(--texto);
+  border-radius:8px;padding:4px 12px;cursor:pointer;font-size:12px}
+.chk .item button.sim.on{background:var(--verde);color:#04220f;border-color:var(--verde)}
+.chk .item button.nao.on{background:var(--vermelho);color:#2a0000;border-color:var(--vermelho)}
+.btn-conf{background:var(--ciano);color:#04222a;border:none;border-radius:10px;padding:11px 22px;
+  font-weight:800;cursor:pointer;font-size:15px;margin-top:6px}
+.btn-conf:disabled{background:var(--painel2);color:var(--suave);cursor:not-allowed}
+.status-bloco{font-size:13px;margin-top:10px;font-weight:700}
+.pegadinhas{background:#2a1622;border:1px solid var(--vermelho);border-radius:16px;padding:18px;margin:22px 0}
+.pegadinhas h2{color:var(--vermelho);margin:0 0 10px}
+.pegadinhas ol{margin:0;padding-left:20px}
+.pegadinhas li{margin:7px 0}
+.cobertura{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:18px;margin:22px 0}
+.cobertura table{width:100%;border-collapse:collapse;font-size:13px}
+.cobertura th,.cobertura td{border:1px solid var(--linha);padding:8px;text-align:left}
+.cobertura th{background:var(--painel2);color:var(--ciano)}
+.revisar{background:#2a2418;border:1px solid var(--ambar);border-radius:16px;padding:18px;margin:22px 0}
+.revisar h2{color:var(--ambar);margin:0 0 8px}
+.revisar ul{margin:0;padding-left:20px}
+.rodape-nav{display:flex;justify-content:space-between;margin:26px 0;font-size:14px}
+.rodape-nav a{color:var(--ciano);text-decoration:none;font-weight:700}
+.modal-fundo{position:fixed;inset:0;background:rgba(4,10,22,.75);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal-fundo.ver{display:flex}
+.modal{background:var(--painel);border:1px solid var(--ciano);border-radius:16px;padding:22px;max-width:420px;text-align:center}
+.modal button{background:var(--ciano);color:#04222a;border:none;border-radius:10px;padding:9px 18px;font-weight:700;cursor:pointer;margin-top:12px}
+.salvo-flag{font-size:12px;color:var(--suave)}
+</style>
+</head>
+<body>
+<header>
+  <span class="badge">GEOGRAFIA · 7º ANO</span>
+  <h1>📖 Leitura Guiada — Central do Censo</h1>
+  <p class="sub">Capítulos 13, 14 e 15 · População, estrutura etária e trabalho</p>
+</header>
+<div class="wrap">
+  <nav class="abas">
+    <a href="leitura-guiada.html" class="on">📖 Leitura Guiada</a>
+    <a href="quiz.html">🎯 Quiz</a>
+    <a href="resumo.html">🗺️ Resumo</a>
+    <a href="simulado.html">📝 Simulado</a>
+    <a href="index.html">🏠 Início</a>
+  </nav>
+
+  <div class="painel-salvar">
+    <span class="salvo-flag" id="salvoFlag">Seu progresso é salvo automaticamente.</span>
+    <button onclick="exportar()">📥 Exportar</button>
+    <button onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input type="file" id="imp" style="display:none" accept=".json" onchange="importar(event)">
+    <button onclick="zerar()">🗑️ Zerar tudo</button>
+  </div>
+
+  <div class="intro">
+    <p><b>Bem-vindo(a), analista!</b> Você acaba de entrar na <b>Central do Censo</b>, onde a gente estuda a população como faz o IBGE. Cada estação abre depois que você responde a anterior — assim o assunto fica firme na memória.</p>
+    <p>Em cada estação há um texto e <b>3 perguntas para você escrever com as suas palavras</b>. Escrever é o que faz aprender de verdade, então evite copiar o texto: explique como se fosse contar para um amigo.</p>
+  </div>
+
+  <div id="blocos"></div>
+
+  <div class="revisar" id="paraRevisar" style="display:none">
+    <h2>🔁 Para revisar</h2>
+    <p class="sub">Estas perguntas ficaram marcadas para você olhar de novo antes da prova:</p>
+    <ul id="listaRevisar"></ul>
+  </div>
+
+  <div class="cobertura">
+    <h2 style="color:var(--ciano);margin-top:0">🗂️ Cobertura — Tópico → Estação</h2>
+    <p class="sub">Confira que todos os temas da prova estão no material:</p>
+    <table id="tabCob"><thead><tr><th>Tópico da prova</th><th>Estação</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="pegadinhas">
+    <h2>⚠️ 10 Pegadinhas da prova</h2>
+    <ol id="listaPeg"></ol>
+  </div>
+
+  <div class="rodape-nav">
+    <a href="index.html">🏠 Início</a>
+    <a href="quiz.html">Próximo: 🎯 Quiz →</a>
+  </div>
+</div>
+
+<div class="modal-fundo" id="modal">
+  <div class="modal">
+    <p id="modalTxt"></p>
+    <button onclick="fecharModal()">Entendi</button>
+  </div>
+</div>
+
+<script>
+var BLOCOS = [
+ {
+  estacao:"Estação 1 · Contagem",
+  titulo:"Populoso ou povoado? População absoluta e relativa",
+  paras:[
+   "Toda a Geografia da população começa com dois números. A <b>população absoluta</b> é o total de pessoas que vivem num lugar — o Brasil, por exemplo, tem mais de 200 milhões de habitantes. Quando um país tem muita gente, dizemos que ele é <b>populoso</b>, como a China e o próprio Brasil.",
+   "Mas ter muita gente não é a mesma coisa que ter gente apertada. A <b>população relativa</b>, também chamada de <b>densidade demográfica</b>, mostra o quanto as pessoas estão espremidas no território. Ela é calculada dividindo a população absoluta pela área do lugar (habitantes por km²). Um país cheio de gente por km² é chamado de <b>povoado</b>.",
+   "Por isso um país pode ser populoso e, ao mesmo tempo, pouco povoado. O Brasil é assim: tem muita gente, mas é tão grande que sobra espaço vazio — a densidade fica baixa. Já Malta, uma ilha pequena da Europa, tem pouca gente (uns 563 mil), mas como é minúscula, fica lotada: densidade altíssima. Ou seja, populoso fala do total; povoado fala da concentração."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"Explique, com suas palavras, a diferença entre população absoluta e densidade demográfica.",
+    modelo:"População absoluta é o número total de habitantes de um lugar. Densidade demográfica (população relativa) é quantas pessoas existem por km², ou seja, o quanto elas estão concentradas. Calcula-se dividindo a população absoluta pela área.",
+    chk:["Disse que população absoluta é o total de habitantes?","Disse que densidade é habitantes por km² (concentração)?"]},
+   {tipo:"aplicacao",q:"Crie um exemplo próprio (não precisa ser real) de um país que seja POPULOSO mas POUCO POVOADO. Diga por que ele seria assim.",
+    modelo:"Exemplo pessoal. Deve mostrar que o país tem muita gente no total (populoso), mas um território tão grande que a densidade fica baixa (pouco povoado), como acontece com o Brasil.",
+    chk:["Seu país tem população total grande (populoso)?","Você explicou que a área grande deixa a densidade baixa (pouco povoado)?"]},
+   {tipo:"aplicacao",q:"Malta tem pouca gente mas é muito povoada. Explique para um colega mais novo como isso é possível.",
+    modelo:"Malta tem pouca gente no total, mas é um país muito pequenininho. Como a mesma gente ocupa pouco espaço, todo mundo fica junto e a densidade (habitantes por km²) fica alta. Por isso é pouco populosa, mas muito povoada.",
+    chk:["Disse que Malta tem pouca gente no total?","Explicou que, por ser pequena, a densidade fica alta?"]}
+  ]
+ },
+ {
+  estacao:"Estação 2 · Mapa",
+  titulo:"Onde a população se distribui (Brasil e mundo)",
+  paras:[
+   "As pessoas não se espalham igualmente pelo planeta. Existem áreas cheias e áreas quase vazias, chamadas de <b>vazios demográficos</b>. Em geral, os vazios ficam em lugares com natureza difícil de morar: desertos muito quentes, regiões geladas ou florestas densas.",
+   "No Brasil, a distribuição também é desigual. Mais de <b>80% da população</b> vive nas regiões <b>Nordeste, Sudeste e Sul</b>, principalmente na faixa perto do litoral (a porção leste). Isso vem da história: a colonização portuguesa começou no litoral, com o pau-brasil e a cana-de-açúcar, e ali cresceram as primeiras cidades e indústrias.",
+   "Quanto mais para o oeste, menos gente. As regiões <b>Norte e Centro-Oeste</b> juntas têm menos de 20% dos habitantes. Na região Norte, a Floresta Amazônica (vegetação densa e distante do litoral) ajuda a explicar a baixa concentração. Onde há gente no Norte e no Centro-Oeste, ela costuma estar nas grandes cidades, quase sempre as capitais."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"O que é um vazio demográfico? Dê um tipo de lugar onde eles costumam aparecer.",
+    modelo:"Vazio demográfico é uma área com pouquíssima gente. Costuma aparecer em lugares com natureza difícil de ocupar, como desertos, regiões muito frias ou florestas densas.",
+    chk:["Disse que é uma área com pouca ou nenhuma população?","Deu um exemplo de lugar (deserto, área gelada ou floresta)?"]},
+   {tipo:"aplicacao",q:"Usando o que você leu, explique por que a região Norte tem a menor densidade demográfica do Brasil.",
+    modelo:"A região Norte tem a Floresta Amazônica, com vegetação muito densa e distante do litoral. Esses fatores naturais dificultaram a ocupação, por isso vive pouca gente ali e a densidade é baixa.",
+    chk:["Citou a floresta densa / natureza difícil?","Ligou isso à baixa concentração de gente no Norte?"]},
+   {tipo:"aplicacao",q:"Um amigo disse: 'O Brasil foi ocupado do interior para o litoral'. Corrija a frase dele e explique o certo.",
+    modelo:"O correto é o contrário: a ocupação começou no litoral (leste) e foi avançando para o interior (oeste). Por isso a população está concentrada perto do litoral, nas regiões Nordeste, Sudeste e Sul.",
+    chk:["Corrigiu para: começou no litoral e foi para o interior?","Ligou isso à concentração no leste do país?"]}
+  ]
+ },
+ {
+  estacao:"Estação 3 · Fluxo",
+  titulo:"Crescimento da população: natalidade, mortalidade e migração",
+  paras:[
+   "A população de um lugar cresce (ou diminui) por causa de dois movimentos. O primeiro é o <b>crescimento vegetativo</b> (ou natural): a diferença entre a <b>taxa de natalidade</b> (quantas pessoas nascem a cada mil habitantes) e a <b>taxa de mortalidade</b> (quantas morrem a cada mil). Se nasce mais gente do que morre, o crescimento vegetativo é positivo, como no Brasil. Se morre mais do que nasce, é negativo, como em vários países da Europa. Se nascem e morrem na mesma proporção, é nulo.",
+   "O segundo movimento é o <b>saldo migratório</b>: a diferença entre quem entra no país (<b>imigração</b>) e quem sai (<b>emigração</b>). Somando o crescimento vegetativo com o saldo migratório, temos o crescimento total da população.",
+   "Existe ainda a <b>taxa de fecundidade</b>: o número médio de filhos que cada mulher tem ao longo da vida (o IBGE conta mulheres de 15 a 49 anos). Essa taxa vem caindo no Brasil e no mundo por causa da urbanização, do uso de métodos contraceptivos, do custo alto de criar filhos na cidade e da entrada da mulher no mercado de trabalho. Foi um crescimento tão rápido no fim do século XX que ganhou o nome de <b>explosão demográfica</b>."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"O que significa dizer que um país tem crescimento vegetativo NEGATIVO?",
+    modelo:"Significa que morrem mais pessoas do que nascem naquele período, ou seja, a taxa de mortalidade é maior que a de natalidade. Sem migração, a população tende a diminuir.",
+    chk:["Disse que morrem mais pessoas do que nascem?","Mostrou que isso faz a população encolher?"]},
+   {tipo:"aplicacao",q:"Um país teve, em um ano: taxa de natalidade 18‰ e taxa de mortalidade 8‰. Calcule o crescimento vegetativo e diga se ele é positivo, negativo ou nulo.",
+    modelo:"Crescimento vegetativo = natalidade - mortalidade = 18 - 8 = 10‰. Como deu positivo, nasce mais gente do que morre: crescimento vegetativo POSITIVO.",
+    chk:["Fez a conta 18 - 8 = 10‰?","Concluiu que é positivo?"]},
+   {tipo:"aplicacao",q:"Cite dois motivos, com suas palavras, para a taxa de fecundidade estar caindo no Brasil.",
+    modelo:"Exemplos: a mulher passou a trabalhar fora e estudar mais, adiando e reduzindo os filhos; criar filhos na cidade custa caro; uso de métodos contraceptivos; urbanização. Bastam dois.",
+    chk:["Deu pelo menos dois motivos?","Os motivos têm a ver com trabalho da mulher, custo, contracepção ou cidade?"]}
+  ]
+ },
+ {
+  estacao:"Estação 4 · Pirâmides",
+  titulo:"Estrutura etária e a pirâmide etária",
+  paras:[
+   "A <b>estrutura da população</b> é o jeito como ela se divide por idade, sexo, trabalho e escolaridade. A parte mais cobrada é a <b>estrutura etária</b>: a distribuição das pessoas por faixas de idade em cada sexo. Conhecer isso ajuda o governo a planejar escolas, hospitais, creches e aposentadorias.",
+   "Para enxergar tudo isso de uma vez, usa-se a <b>pirâmide etária</b>, um gráfico que cresce da base (mais novos) para o topo (mais velhos). A <b>base</b> mostra as crianças e jovens — quando é larga, indica alta taxa de natalidade. O <b>corpo</b> (meio) mostra os adultos, que geralmente trabalham e produzem riqueza. O <b>topo</b> mostra os idosos.",
+   "Assim, olhando o formato, dá para 'ler' o país. Base larga e topo estreito = muita criança, poucos idosos, natalidade alta. Base estreita e topo alargado = poucas crianças, muitos idosos, natalidade baixa e expectativa de vida alta."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"Numa pirâmide etária, o que representam a base, o corpo (meio) e o topo?",
+    modelo:"A base representa as crianças e jovens; o corpo (meio) representa os adultos (que trabalham); e o topo representa os idosos. A idade aumenta da base para o topo.",
+    chk:["Base = crianças/jovens?","Corpo = adultos e topo = idosos?"]},
+   {tipo:"aplicacao",q:"Imagine uma pirâmide com a base bem larga e o topo bem estreito. Explique como é a população desse lugar.",
+    modelo:"É uma população jovem: muitas crianças e adolescentes (natalidade alta) e poucos idosos (topo estreito), o que costuma indicar também expectativa de vida mais baixa. É típico de países subdesenvolvidos.",
+    chk:["Disse que tem muitas crianças/jovens (natalidade alta)?","Disse que tem poucos idosos?"]},
+   {tipo:"aplicacao",q:"Explique para um colega por que conhecer a estrutura etária ajuda o governo a planejar o país.",
+    modelo:"Sabendo quantas crianças, adultos e idosos existem, o governo consegue planejar quantas creches e escolas construir, quantos hospitais e serviços para idosos oferecer e como organizar a aposentadoria. Ele se prepara para as necessidades de cada faixa de idade.",
+    chk:["Ligou a estrutura etária a serviços (escola, saúde, aposentadoria)?","Mostrou que é planejar para as necessidades da população?"]}
+  ]
+ },
+ {
+  estacao:"Estação 5 · Comparação",
+  titulo:"Pirâmides pelo mundo e a transição demográfica",
+  paras:[
+   "O formato da pirâmide muda conforme o desenvolvimento do país. Nos <b>países desenvolvidos</b> (como Alemanha e Japão), a natalidade é baixa: a base fica estreita, o corpo espesso e o topo alargado, com muitos idosos e expectativa de vida alta. Nos <b>países subdesenvolvidos</b> (como a Somália), a base é larga (natalidade alta) e o topo é quase inexistente, com expectativa de vida menor.",
+   "Nos <b>países em desenvolvimento</b>, como Brasil e China, a pirâmide está no meio do caminho: a base começou a estreitar (menos filhos) e o topo vem se alargando devagar (mais idosos).",
+   "Essa mudança de formato ao longo do tempo se chama <b>transição demográfica</b>: a passagem de uma época com natalidade e mortalidade altas para uma época em que as duas ficam baixas. Ela começa com a queda da mortalidade (por causa de saneamento, medicina e alimentação) e depois vem a queda da natalidade. No estágio final, natalidade e mortalidade ficam baixas e o crescimento da população é pequeno ou até negativo."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"O que é a transição demográfica?",
+    modelo:"É o processo de mudança de um período com taxas de natalidade e mortalidade altas para um período em que as duas ficam baixas. Primeiro cai a mortalidade e depois a natalidade.",
+    chk:["Disse que é a passagem de altas para baixas taxas?","Citou natalidade e mortalidade?"]},
+   {tipo:"aplicacao",q:"Compare, com suas palavras, a pirâmide de um país desenvolvido com a de um subdesenvolvido.",
+    modelo:"O país desenvolvido tem base estreita e topo largo (poucas crianças, muitos idosos, natalidade baixa). O subdesenvolvido tem base larga e topo pequeno (muitas crianças, poucos idosos, natalidade alta e expectativa de vida menor).",
+    chk:["Descreveu o desenvolvido: base estreita/muitos idosos?","Descreveu o subdesenvolvido: base larga/muitas crianças?"]},
+   {tipo:"aplicacao",q:"Explique por que a queda da mortalidade costuma vir ANTES da queda da natalidade na transição demográfica.",
+    modelo:"A mortalidade cai primeiro porque melhoram saneamento, medicina e alimentação, e as pessoas passam a morrer menos. A natalidade demora mais para cair porque depende de mudanças na sociedade (urbanização, mulher trabalhando, contracepção), que acontecem depois.",
+    chk:["Ligou a queda da mortalidade a saúde/saneamento/alimentação?","Mostrou que a natalidade cai depois, por mudanças sociais?"]}
+  ]
+ },
+ {
+  estacao:"Estação 6 · Registro",
+  titulo:"O Censo e o envelhecimento da população brasileira",
+  paras:[
+   "Para conhecer tudo isso, o Brasil faz o <b>Censo Demográfico</b>: uma grande pesquisa do <b>IBGE</b>, realizada mais ou menos a cada dez anos, em que recenseadores visitam as casas e fazem perguntas sobre a população. Os resultados ajudam o governo a planejar economia, saúde, moradia e educação. O primeiro censo foi em 1872 (menos de 10 milhões de habitantes); em 2010 já eram mais de 190 milhões; e o censo de 2022 apontou cerca de 203 milhões.",
+   "O Brasil sempre foi visto como um país 'jovem', mas isso mudou. Com a queda da natalidade e o aumento da expectativa de vida, a base da pirâmide brasileira encolheu e o topo cresceu: é o <b>envelhecimento da população</b>. A pirâmide vem ficando mais parecida com um retângulo.",
+   "Mais idosos significa novos desafios. É preciso mais atendimento médico especializado e, principalmente, repensar a <b>previdência social</b> — o sistema que arrecada dinheiro dos trabalhadores na ativa para pagar as <b>aposentadorias</b>. Quanto mais aposentados e menos trabalhadores pagando, mais difícil equilibrar as contas. Para proteger os mais velhos, existe o <b>Estatuto do Idoso</b> (Lei de 2003), que garante direitos às pessoas com 60 anos ou mais."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"O que é o Censo Demográfico e quem o realiza?",
+    modelo:"É a grande pesquisa que traça o perfil da população, feita pelo IBGE mais ou menos a cada dez anos, visitando as casas para coletar dados sobre os habitantes.",
+    chk:["Disse que é a pesquisa que conta/perfila a população?","Citou o IBGE (a cada ~10 anos)?"]},
+   {tipo:"aplicacao",q:"Explique por que o envelhecimento da população pressiona a previdência social. Use suas palavras.",
+    modelo:"A previdência usa o dinheiro dos trabalhadores na ativa para pagar os aposentados. Com o envelhecimento, aumentam os idosos aposentados e diminuem, proporcionalmente, os trabalhadores que contribuem. Assim fica mais difícil pagar todas as aposentadorias.",
+    chk:["Explicou que os trabalhadores ativos pagam os aposentados?","Mostrou que mais idosos e menos ativos desequilibra as contas?"]},
+   {tipo:"aplicacao",q:"Com base na conta do IBGE (1872, 2010 e 2022), o que aconteceu com a população brasileira ao longo do tempo? Escreva o que os números mostram.",
+    modelo:"Os números mostram um grande crescimento: de menos de 10 milhões em 1872 para mais de 190 milhões em 2010 e cerca de 203 milhões em 2022. A população aumentou muito, mas o ritmo de crescimento vem diminuindo.",
+    chk:["Mostrou o crescimento (de ~10 mi para ~203 mi)?","Percebeu que a população aumentou muito ao longo do tempo?"]}
+  ]
+ },
+ {
+  estacao:"Estação 7 · Força de trabalho",
+  titulo:"PEA, PEI e as medidas contra o envelhecimento",
+  paras:[
+   "Quem sustenta a economia é a <b>População Economicamente Ativa (PEA)</b>: as pessoas em idade de trabalhar que estão <b>trabalhando</b> (ocupadas) ou <b>procurando emprego</b> (desocupadas). Fora dela está a <b>População Economicamente Inativa (PEI)</b>: quem ainda não tem idade para trabalhar (crianças) ou já se aposentou.",
+   "Quando um país tem menos filhos e mais idosos, a PEA vai ficando pequena em relação ao total: menos gente trabalhando e pagando a previdência, mais gente aposentada recebendo. Para não desequilibrar, os governos criam medidas voltadas a diferentes idades.",
+   "As principais são: <b>(1)</b> dar benefícios para as famílias terem filhos (creche, escola, licenças longas, ajuda em dinheiro), pensando nas crianças de amanhã; <b>(2)</b> <b>aumentar a idade da aposentadoria</b>, para os idosos ficarem mais tempo na PEA contribuindo; e <b>(3)</b> <b>estimular a imigração</b> de pessoas em idade ativa, que entram no mercado, pagam impostos e ajudam a previdência (o Canadá tem programas assim)."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"Quais pessoas fazem parte da PEA (População Economicamente Ativa)?",
+    modelo:"Fazem parte da PEA as pessoas em idade de trabalhar que estão trabalhando (ocupadas) ou procurando emprego (desocupadas).",
+    chk:["Disse que são pessoas em idade de trabalhar?","Incluiu tanto quem trabalha quanto quem procura emprego?"]},
+   {tipo:"aplicacao",q:"Cite duas medidas que um governo pode adotar para diminuir o impacto do envelhecimento, e diga a qual faixa de idade cada uma se dirige.",
+    modelo:"Exemplos: benefícios para ter filhos (voltado às crianças/jovens); aumentar a idade da aposentadoria (voltado aos idosos/adultos); estimular a imigração de gente em idade ativa (voltado aos adultos). Bastam duas com a faixa certa.",
+    chk:["Citou duas medidas diferentes?","Ligou cada medida a uma faixa de idade?"]},
+   {tipo:"aplicacao",q:"Explique, para um colega, por que a chegada de imigrantes em idade ativa pode ajudar a PEA de um país.",
+    modelo:"Imigrantes em idade ativa já estão prontos para trabalhar. Eles entram no mercado, ocupam vagas, pagam impostos e contribuem para a previdência. Assim aumentam a PEA sem que o país tenha que esperar as crianças crescerem.",
+    chk:["Disse que os imigrantes já podem trabalhar?","Mostrou que eles pagam impostos/contribuem para a previdência?"]}
+  ]
+ },
+ {
+  estacao:"Estação 8 · Setores",
+  titulo:"Os setores da economia e onde está a PEA brasileira",
+  paras:[
+   "A PEA se divide em três <b>setores da economia</b>. O <b>setor primário</b> reúne agricultura, pecuária e extrativismo (tirar da natureza recursos animais, vegetais e minerais). O <b>setor secundário</b> é a indústria e a construção civil, que transformam as matérias-primas do setor primário em produtos. O <b>setor terciário</b> é o comércio e os serviços de todo tipo.",
+   "No Brasil, a maior parte dos trabalhadores está hoje no <b>setor terciário</b>. Nem sempre foi assim: até a década de 1960 muita gente estava no setor primário (campo); depois a industrialização levou trabalhadores para o secundário; e, com a modernização e a mecanização do campo e da indústria (que reduziram vagas), a maioria acabou migrando para o terciário.",
+   "Ter a maioria da PEA no setor terciário é típico de economias mais urbanas. Mas atenção: no Brasil, boa parte desses trabalhadores não tem qualificação para áreas que exigem formação (como finanças ou tecnologia) e muitos trabalham sem registro, em <b>subempregos</b>."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"Diga o que faz cada setor da economia: primário, secundário e terciário.",
+    modelo:"Primário: agricultura, pecuária e extrativismo (tira recursos da natureza). Secundário: indústria e construção civil (transforma matéria-prima em produtos). Terciário: comércio e serviços.",
+    chk:["Descreveu o primário (campo/extrativismo)?","Descreveu o secundário (indústria) e o terciário (comércio/serviços)?"]},
+   {tipo:"aplicacao",q:"Classifique estes três trabalhadores no setor certo: um pescador, uma operária de fábrica de sapatos e um vendedor de loja.",
+    modelo:"Pescador = setor primário (extrativismo animal). Operária da fábrica de sapatos = setor secundário (indústria). Vendedor de loja = setor terciário (comércio).",
+    chk:["Pescador no primário e operária no secundário?","Vendedor no terciário?"]},
+   {tipo:"aplicacao",q:"O Brasil tem a maior parte da PEA no setor terciário. Explique por que a população mudou de setor ao longo do tempo.",
+    modelo:"Antes muita gente trabalhava no campo (primário). Com a industrialização, foram para a indústria (secundário). Depois, a modernização e a mecanização do campo e da indústria reduziram as vagas, e os trabalhadores migraram para o comércio e os serviços (terciário), que hoje empregam a maioria.",
+    chk:["Descreveu a mudança primário → secundário → terciário?","Citou a mecanização/modernização reduzindo vagas?"]}
+  ]
+ },
+ {
+  estacao:"Estação 9 · Direitos",
+  titulo:"Mulher no trabalho, trabalho infantil e trabalho informal",
+  paras:[
+   "A entrada da <b>mulher no mercado de trabalho</b> cresceu muito no século XX (durante a Segunda Guerra, muitas assumiram as fábricas). Mesmo assim, ainda há desigualdade: no Brasil a mulher recebe, em média, cerca de <b>80% do salário</b> de um homem, e a mulher negra fica em desvantagem ainda maior. Por isso existem <b>ações afirmativas</b>, como a estabilidade na gravidez, a licença-maternidade de no mínimo quatro meses e a cota de candidaturas na política.",
+   "O <b>trabalho infantil</b> é proibido: pela CLT, ninguém pode trabalhar antes dos 18 anos, e só a partir dos 14 é permitido ser aprendiz, com regras e carga horária reduzida. Crianças devem estudar, não trabalhar. Para garantir isso existem o <b>Estatuto da Criança e do Adolescente (ECA, de 1990)</b> e programas como o Bolsa Família, que ajuda famílias de baixa renda a manterem os filhos na escola.",
+   "Já o <b>trabalho informal</b> é aquele sem registro na carteira de trabalho — o vendedor ambulante é um exemplo. O trabalhador informal fica sem direitos da CLT (férias, 13º salário, FGTS, seguro-desemprego) e não contribui para a previdência, então esse tempo não conta para a aposentadoria. O governo também perde, porque arrecada menos impostos."
+  ],
+  perguntas:[
+   {tipo:"conceitual",q:"O que caracteriza o trabalho informal no Brasil?",
+    modelo:"É o trabalho sem registro na carteira de trabalho. Por isso o trabalhador não tem os direitos garantidos pela CLT (férias, 13º, FGTS, seguro-desemprego) e não contribui para a previdência.",
+    chk:["Disse que é trabalho sem carteira assinada/registro?","Citou a perda de direitos da CLT ou da previdência?"]},
+   {tipo:"aplicacao",q:"Uma criança de 10 anos pode trabalhar no Brasil? Explique a regra da CLT com suas palavras.",
+    modelo:"Não. Pela CLT, é proibido trabalhar antes dos 18 anos; só a partir dos 14 é possível ser aprendiz, com carga horária reduzida e regras. Uma criança de 10 anos deve estar na escola, não trabalhando.",
+    chk:["Disse que não pode (proibido antes dos 18)?","Citou a exceção do aprendiz só a partir dos 14?"]},
+   {tipo:"aplicacao",q:"Explique, para um colega, um obstáculo que as mulheres ainda enfrentam no mercado de trabalho e uma ação afirmativa que ajuda a reduzi-lo.",
+    modelo:"Obstáculo: ganham menos que os homens (cerca de 80% do salário) e a mulher negra fica em desvantagem maior. Ação afirmativa: licença-maternidade garantida, estabilidade na gravidez ou cota de candidaturas na política, que ajudam a proteger e incluir a mulher.",
+    chk:["Citou um obstáculo real (salário menor / desvantagem)?","Citou uma ação afirmativa que ajuda?"]}
+  ]
+ }
+];
+
+var PEGADINHAS = [
+ "<b>Populoso ≠ povoado.</b> Populoso é ter muita gente no total; povoado é ter alta densidade (gente por km²). O Brasil é populoso, mas pouco povoado.",
+ "<b>Densidade demográfica</b> = população absoluta ÷ área. Não confunda com o total de habitantes.",
+ "<b>Crescimento vegetativo</b> = natalidade − mortalidade. O <b>saldo migratório</b> (imigração − emigração) é outra coisa; o crescimento total soma os dois.",
+ "Crescimento vegetativo <b>negativo</b> = morrem mais do que nascem (comum na Europa). <b>Nulo</b> = natalidade igual à mortalidade.",
+ "Na <b>pirâmide etária</b>, a idade aumenta da BASE (crianças) para o TOPO (idosos). Base larga = natalidade alta.",
+ "País <b>desenvolvido</b>: base estreita e topo largo (muitos idosos). País <b>subdesenvolvido</b>: base larga e topo pequeno. Não troque!",
+ "Na <b>transição demográfica</b>, a mortalidade cai ANTES da natalidade.",
+ "<b>PEA</b> inclui quem trabalha E quem procura emprego. Aposentados e crianças ficam na <b>PEI</b> (inativa).",
+ "<b>Setor terciário</b> = comércio e serviços (é onde está a maioria da PEA no Brasil). Indústria é secundário; campo/extração é primário.",
+ "<b>Trabalho infantil</b>: proibido antes dos 18; aprendiz só a partir dos 14. <b>Trabalho informal</b> = sem carteira assinada, sem direitos da CLT."
+];
+
+var COBERTURA = [
+ ["População absoluta, relativa, populoso × povoado","Estação 1"],
+ ["Distribuição da população, vazios demográficos","Estação 2"],
+ ["Natalidade, mortalidade, crescimento vegetativo, fecundidade, migração","Estação 3"],
+ ["Estrutura etária e pirâmide etária","Estação 4"],
+ ["Pirâmides no mundo e transição demográfica","Estação 5"],
+ ["Censo, IBGE e envelhecimento / previdência","Estação 6"],
+ ["PEA, PEI e medidas contra o envelhecimento","Estação 7"],
+ ["Setores da economia (primário, secundário, terciário)","Estação 8"],
+ ["Mulher no trabalho, trabalho infantil e informal","Estação 9"]
+];
+
+var CHAVE = "geo7_censo_leitura_v1";
+var mem = {};
+var estado = carregar();
+
+function carregar(){
+  try{ var s=localStorage.getItem(CHAVE); if(s) return JSON.parse(s); }
+  catch(e){ if(mem[CHAVE]) return JSON.parse(mem[CHAVE]); }
+  return {resp:{}, transcrita:{}, tentou:{}, chk:{}, abertos:1};
+}
+function salvar(){
+  var s=JSON.stringify(estado);
+  try{ localStorage.setItem(CHAVE,s); }catch(e){ mem[CHAVE]=s; }
+  var f=document.getElementById('salvoFlag');
+  var d=new Date();
+  f.textContent="Salvo automaticamente às "+d.toLocaleTimeString('pt-BR');
+}
+
+function normaliza(t){
+  return (t||"").toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/<[^>]+>/g," ")
+    .replace(/[^a-z0-9\s]/g," ")
+    .replace(/\s+/g," ").trim();
+}
+function palavras(t){ var n=normaliza(t); return n?n.split(" "):[]; }
+function comunsMask(R,B,tam){
+  var mask=new Array(R.length); for(var z=0;z<R.length;z++) mask[z]=false;
+  if(R.length<tam||B.length<tam) return mask;
+  var setSeq={};
+  for(var i=0;i+tam<=B.length;i++){ setSeq[B.slice(i,i+tam).join(" ")]=true; }
+  for(var k=0;k+tam<=R.length;k++){
+    if(setSeq[R.slice(k,k+tam).join(" ")]){
+      for(var m=k;m<k+tam;m++) mask[m]=true;
+    }
+  }
+  return mask;
+}
+function ehTranscrita(resposta, fonte, enunciado){
+  var R=palavras(resposta), F=palavras(fonte), E=palavras(enunciado);
+  if(R.length<5) return false;
+  var citadas=comunsMask(R,E,4);
+  var comuns5=comunsMask(R,F,5);
+  var comuns8=comunsMask(R,F,8);
+  var contComum=0, contValidas=0;
+  for(var i=0;i<R.length;i++){
+    if(citadas[i]) continue;
+    contValidas++;
+    if(comuns5[i]) contComum++;
+  }
+  var seg=0, flag8=false;
+  for(var j=0;j<R.length;j++){
+    if(citadas[j]){ seg=0; continue; }
+    if(comuns8[j]){ seg++; if(seg>=8){ flag8=true; break; } }
+    else seg=0;
+  }
+  var prop = contValidas? (contComum/contValidas) : 0;
+  return flag8 || prop>0.60;
+}
+
+function render(){
+  var cont=document.getElementById('blocos'); cont.innerHTML="";
+  BLOCOS.forEach(function(b,bi){
+    var aberto = bi < estado.abertos;
+    var feito = blocoFeito(bi);
+    var div=document.createElement('div');
+    div.className="bloco"+(aberto?" aberto":"")+(feito?" feito":"");
+    div.id="bloco"+bi;
+    var h='<div class="cab"><div class="num">'+(bi+1)+'</div><div>'+
+          '<div class="estacao">'+b.estacao+'</div>'+
+          '<h2>'+b.titulo+'</h2></div></div>';
+    if(!aberto){
+      h+='<div class="cadeado">🔒 Responda a estação anterior para abrir esta.</div>';
+      div.innerHTML=h; cont.appendChild(div); return;
+    }
+    h+='<div class="corpo">';
+    b.paras.forEach(function(p){ h+='<p>'+p+'</p>'; });
+    b.perguntas.forEach(function(pg,qi){
+      var key=bi+"_"+qi;
+      var val=estado.resp[key]||"";
+      var trans=estado.transcrita[key];
+      var tipoHtml = pg.tipo==="aplicacao" ? '<span class="tipo aplic">✍️ aplicação</span>' : '<span class="tipo conc">💡 conceito</span>';
+      h+='<div class="pergunta'+(trans?" transcrita":"")+'" id="pg'+key+'">'+
+         tipoHtml+
+         '<div class="qtxt">'+(qi+1)+'. '+pg.q+'</div>'+
+         '<textarea id="ta'+key+'" oninput="digitou('+bi+','+qi+')" placeholder="Escreva com as suas palavras...">'+escapa(val)+'</textarea>'+
+         '<div class="aviso amarelo" id="av'+key+'" style="display:none">Boa parte da sua resposta está igual ao texto. Tente reescrever com as suas palavras — explique como se fosse para um amigo, sem olhar o texto. Pode ficar mais curto e simples, o que vale é ser SEU.</div>'+
+         '<div class="aviso vermelho" id="vm'+key+'" style="display:none">Esta resposta ficou muito parecida com o texto. Ela conta, mas fica marcada para você reescrever com as suas palavras depois (isso apaga a marca).</div>'+
+         '<div class="modelo" id="md'+key+'"><b>Resposta modelo:</b> '+pg.modelo+'</div>'+
+         '<div class="chk" id="ck'+key+'">'+montaChk(bi,qi,pg)+'</div>'+
+         '</div>';
+    });
+    h+='<button class="btn-conf" id="cf'+bi+'" onclick="conferir('+bi+')">Conferir estação</button>';
+    h+='<div class="status-bloco" id="st'+bi+'"></div>';
+    h+='</div>';
+    div.innerHTML=h;
+    cont.appendChild(div);
+  });
+  BLOCOS.forEach(function(b,bi){ if(bi<estado.abertos && blocoConferido(bi)) mostrarConferido(bi); });
+  atualizarBotoes();
+  montarRevisar();
+}
+function montaChk(bi,qi,pg){
+  var key=bi+"_"+qi, h="";
+  pg.chk.forEach(function(c,ci){
+    var st=(estado.chk[key]&&estado.chk[key][ci])||"";
+    h+='<div class="item"><span>'+c+'</span><div class="bts">'+
+       '<button class="sim'+(st==="sim"?" on":"")+'" onclick="marcaChk('+bi+','+qi+','+ci+',\'sim\')">Sim</button>'+
+       '<button class="nao'+(st==="nao"?" on":"")+'" onclick="marcaChk('+bi+','+qi+','+ci+',\'nao\')">Não</button>'+
+       '</div></div>';
+  });
+  return h;
+}
+function escapa(t){ return (t||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function digitou(bi,qi){
+  var key=bi+"_"+qi;
+  var ta=document.getElementById('ta'+key);
+  estado.resp[key]=ta.value;
+  if(estado.transcrita[key] && ta.value!==estado.tentou[key]){
+    var pg=BLOCOS[bi].perguntas[qi];
+    if(!ehTranscrita(ta.value, BLOCOS[bi].paras.join(" "), pg.q)){
+      estado.transcrita[key]=false;
+      var pgd=document.getElementById('pg'+key); if(pgd) pgd.classList.remove('transcrita');
+      var vm=document.getElementById('vm'+key); if(vm) vm.style.display="none";
+      montarRevisar();
+    }
+  }
+  salvar();
+  atualizarBotoes();
+}
+function atualizarBotoes(){
+  BLOCOS.forEach(function(b,bi){
+    if(bi>=estado.abertos) return;
+    var bt=document.getElementById('cf'+bi); if(!bt) return;
+    var ok=true;
+    b.perguntas.forEach(function(pg,qi){
+      var v=estado.resp[bi+"_"+qi]||"";
+      if(v.trim().length<3) ok=false;
+    });
+    bt.disabled=!ok;
+  });
+}
+function marcaChk(bi,qi,ci,val){
+  var key=bi+"_"+qi;
+  if(!estado.chk[key]) estado.chk[key]={};
+  estado.chk[key][ci]=val;
+  salvar();
+  var pg=BLOCOS[bi].perguntas[qi];
+  var ck=document.getElementById('ck'+key);
+  ck.innerHTML=montaChk(bi,qi,pg);
+  ck.classList.add('ver');
+  atualizarStatus(bi);
+  montarRevisar();
+}
+function conferir(bi){
+  var b=BLOCOS[bi];
+  var fonte=b.paras.join(" ");
+  var achouTranscrita1=false;
+  for(var qi=0;qi<b.perguntas.length;qi++){
+    var key=bi+"_"+qi;
+    var pg=b.perguntas[qi];
+    var resp=estado.resp[key]||"";
+    var trans=ehTranscrita(resp,fonte,pg.q);
+    var av=document.getElementById('av'+key);
+    var vm=document.getElementById('vm'+key);
+    if(av) av.style.display="none";
+    if(trans){
+      if(!estado.tentou[key]){
+        estado.tentou[key]=resp;
+        if(av) av.style.display="block";
+        achouTranscrita1=true;
+      } else {
+        estado.transcrita[key]=true;
+        document.getElementById('pg'+key).classList.add('transcrita');
+        if(vm) vm.style.display="block";
+      }
+    }
+  }
+  salvar();
+  if(achouTranscrita1){
+    modal("Algumas respostas ficaram muito parecidas com o texto. Reescreva com as suas palavras e confira de novo. 💪");
+    return;
+  }
+  estado["conf"+bi]=true;
+  if(estado.abertos<BLOCOS.length && estado.abertos===bi+1){
+    estado.abertos=bi+2;
+  }
+  salvar();
+  render();
+  setTimeout(function(){ var el=document.getElementById('bloco'+(bi+1)); if(el) el.scrollIntoView({behavior:'smooth'}); },120);
+}
+function mostrarConferido(bi){
+  var b=BLOCOS[bi];
+  b.perguntas.forEach(function(pg,qi){
+    var key=bi+"_"+qi;
+    var md=document.getElementById('md'+key); if(md) md.classList.add('ver');
+    var ck=document.getElementById('ck'+key); if(ck) ck.classList.add('ver');
+    if(estado.transcrita[key]){
+      var pgd=document.getElementById('pg'+key); if(pgd) pgd.classList.add('transcrita');
+      var vm=document.getElementById('vm'+key); if(vm) vm.style.display="block";
+    }
+  });
+  atualizarStatus(bi);
+}
+function blocoConferido(bi){ return !!estado["conf"+bi]; }
+function blocoFeito(bi){ return blocoConferido(bi); }
+function atualizarStatus(bi){
+  var st=document.getElementById('st'+bi); if(!st) return;
+  var b=BLOCOS[bi], precisa=false;
+  b.perguntas.forEach(function(pg,qi){
+    var key=bi+"_"+qi;
+    if(estado.transcrita[key]) precisa=true;
+    var c=estado.chk[key]||{};
+    pg.chk.forEach(function(x,ci){ if(c[ci]==="nao") precisa=true; });
+  });
+  if(precisa){ st.style.color="var(--ambar)"; st.textContent="🔁 Esta estação tem pontos para revisar (veja a lista no fim)."; }
+  else { st.style.color="var(--verde)"; st.textContent="✅ Estação concluída!"; }
+}
+function montarRevisar(){
+  var itens=[];
+  BLOCOS.forEach(function(b,bi){
+    b.perguntas.forEach(function(pg,qi){
+      var key=bi+"_"+qi;
+      var motivo=null;
+      if(estado.transcrita[key]) motivo="resposta muito parecida com o texto";
+      var c=estado.chk[key]||{};
+      pg.chk.forEach(function(x,ci){ if(c[ci]==="nao") motivo="faltou um ponto-chave na resposta"; });
+      if(motivo) itens.push("<b>"+b.estacao+"</b> — pergunta "+(qi+1)+": "+motivo+".");
+    });
+  });
+  var box=document.getElementById('paraRevisar');
+  var ul=document.getElementById('listaRevisar');
+  if(itens.length){ box.style.display="block"; ul.innerHTML=itens.map(function(i){return "<li>"+i+"</li>";}).join(""); }
+  else box.style.display="none";
+}
+
+function modal(t){ document.getElementById('modalTxt').innerHTML=t; document.getElementById('modal').classList.add('ver'); }
+function fecharModal(){ document.getElementById('modal').classList.remove('ver'); }
+function exportar(){
+  var blob=new Blob([JSON.stringify(estado,null,2)],{type:"application/json"});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download="leitura-guiada-geo7-censo.json"; a.click();
+}
+function importar(ev){
+  var f=ev.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){ try{ estado=JSON.parse(r.result); salvar(); render(); modal("Progresso importado! ✅"); }catch(e){ modal("Arquivo inválido."); } };
+  r.readAsText(f);
+}
+function zerar(){
+  document.getElementById('modalTxt').innerHTML="Tem certeza que quer apagar todo o progresso desta Leitura Guiada?<br><br><button onclick='confirmaZerar()' style='background:var(--vermelho);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer'>Sim, apagar</button>";
+  document.getElementById('modal').classList.add('ver');
+}
+function confirmaZerar(){
+  estado={resp:{}, transcrita:{}, tentou:{}, chk:{}, abertos:1};
+  try{ localStorage.removeItem(CHAVE); }catch(e){} mem={};
+  fecharModal(); render();
+}
+
+document.getElementById('listaPeg').innerHTML=PEGADINHAS.map(function(p){return "<li>"+p+"</li>";}).join("");
+document.querySelector('#tabCob tbody').innerHTML=COBERTURA.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
+render();
+</script>
+</body>
+</html>
