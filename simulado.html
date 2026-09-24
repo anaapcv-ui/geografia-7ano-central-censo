@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado · Central do Censo · Geografia 7º</title>
+<style>
+:root{--fundo:#0b1526;--painel:#132038;--painel2:#1b2c4a;--ciano:#38d6e0;--ambar:#f5b544;
+ --verde:#3ddc84;--vermelho:#ff6b6b;--azulescuro:#0a2a4a;--texto:#eaf2ff;--suave:#9db3d4;--linha:#263a5e;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+ background:radial-gradient(1200px 600px at 50% -10%,#16264a,var(--fundo));color:var(--texto);line-height:1.6;padding-bottom:70px}
+header{padding:24px 18px;text-align:center;background:linear-gradient(180deg,var(--azulescuro),#0b1526);border-bottom:4px solid var(--vermelho)}
+.badge{display:inline-block;background:var(--vermelho);color:#fff;font-weight:800;padding:4px 12px;border-radius:20px;font-size:12px}
+h1{margin:12px 0 4px;font-size:24px}.sub{color:var(--suave);font-size:14px;margin:0}
+.wrap{max-width:800px;margin:0 auto;padding:0 16px}
+nav.abas{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+nav.abas a{color:var(--suave);text-decoration:none;font-size:13px;border:1px solid var(--linha);padding:6px 12px;border-radius:18px;background:var(--painel)}
+nav.abas a.on{background:var(--vermelho);color:#fff;font-weight:700;border-color:var(--vermelho)}
+.painel-salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:var(--painel);
+ border:1px solid var(--linha);border-radius:14px;padding:10px;margin:14px 0;font-size:13px}
+.painel-salvar button{background:var(--painel2);color:var(--texto);border:1px solid var(--linha);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:13px}
+.intro{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:16px 18px;margin:14px 0}
+.q{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:16px 18px;margin:14px 0}
+.qhead{display:flex;justify-content:space-between;align-items:center}
+.qnum{font-size:11px;color:var(--ciano);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.pts{font-size:11px;color:var(--ambar);font-weight:700}
+.tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--painel2);color:var(--suave);margin-left:6px}
+.qtxt{font-weight:600;margin:8px 0 12px}
+.afirm{background:#0d1a30;border:1px solid var(--linha);border-radius:8px;padding:8px 12px;margin:6px 0;font-size:14px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--linha);border-radius:10px;padding:10px 12px;margin:7px 0;cursor:pointer;background:#0d1a30}
+.opt:hover{border-color:var(--ciano)}.opt.sel{border-color:var(--ciano);background:#12283f}
+.opt .letra{font-weight:800;color:var(--ciano);min-width:18px}
+.opt.certa{border-color:var(--verde);background:rgba(61,220,132,.12)}
+.opt.errada{border-color:var(--vermelho);background:rgba(255,107,107,.1)}
+.opt.neutra{opacity:.7}
+.expl{font-size:13px;margin-top:8px;padding:9px 11px;border-radius:8px;background:#0d1a30;border-left:3px solid var(--suave);display:none}
+.expl.ver{display:block}.expl.boa{border-left-color:var(--verde)}
+.somabox{display:flex;align-items:center;gap:10px;margin-top:8px}
+.somabox input{width:90px;background:#0d1a30;border:1px solid var(--linha);color:var(--texto);border-radius:8px;padding:8px;font-size:16px;text-align:center}
+textarea{width:100%;background:#0d1a30;color:var(--texto);border:1px solid var(--linha);border-radius:10px;padding:10px;font-size:14px;font-family:inherit;min-height:80px;resize:vertical}
+.modelo{font-size:13px;margin-top:8px;padding:9px 11px;border-radius:8px;background:#0d1a30;border-left:3px solid var(--ciano);display:none}
+.modelo.ver{display:block}.modelo b{color:var(--ciano)}
+.barra{position:sticky;bottom:0;background:linear-gradient(0deg,#0b1526,#0b1526cc);padding:12px;text-align:center;border-top:1px solid var(--linha)}
+.btn{background:var(--vermelho);color:#fff;border:none;border-radius:12px;padding:12px 26px;font-weight:800;cursor:pointer;font-size:15px}
+.btn:disabled{background:var(--painel2);color:var(--suave);cursor:not-allowed}
+.resultado{background:var(--painel);border:1px solid var(--vermelho);border-radius:16px;padding:20px;margin:16px 0;text-align:center;display:none}
+.resultado.ver{display:block}
+.codigo{font-size:26px;font-weight:800;color:var(--ambar);letter-spacing:2px;margin:8px 0}
+.trava{background:#2a2418;border:1px solid var(--ambar);border-radius:12px;padding:14px;margin:14px 0;text-align:center;font-size:14px}
+.trava input{background:#0d1a30;border:1px solid var(--linha);color:var(--texto);border-radius:8px;padding:8px;font-size:16px;text-align:center;width:160px;letter-spacing:2px;text-transform:uppercase}
+.rodape-nav{display:flex;justify-content:space-between;margin:26px 0;font-size:14px}
+.rodape-nav a{color:var(--ciano);text-decoration:none;font-weight:700}
+.modal-fundo{position:fixed;inset:0;background:rgba(4,10,22,.75);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal-fundo.ver{display:flex}
+.modal{background:var(--painel);border:1px solid var(--ciano);border-radius:16px;padding:22px;max-width:420px;text-align:center}
+.modal button{background:var(--ciano);color:#04222a;border:none;border-radius:10px;padding:9px 18px;font-weight:700;cursor:pointer;margin-top:12px}
+.salvo-flag{font-size:12px;color:var(--suave)}
+</style>
+</head>
+<body>
+<header>
+  <span class="badge">SIMULADO · GEOGRAFIA 7º</span>
+  <h1>📝 Simulado — Central do Censo</h1>
+  <p class="sub">Colégio Coração Feliz · Caps. 13, 14 e 15 · 26 questões</p>
+</header>
+<div class="wrap">
+  <nav class="abas">
+    <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+    <a href="quiz.html">🎯 Quiz</a>
+    <a href="resumo.html">🗺️ Resumo</a>
+    <a href="simulado.html" class="on">📝 Simulado</a>
+    <a href="index.html">🏠 Início</a>
+  </nav>
+  <div class="painel-salvar">
+    <span class="salvo-flag" id="salvoFlag">Respostas salvas automaticamente.</span>
+    <button onclick="exportar()">📥 Exportar</button>
+    <button onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input type="file" id="imp" style="display:none" accept=".json" onchange="importar(event)">
+    <button onclick="zerar()">🗑️ Zerar tudo</button>
+  </div>
+  <div class="intro">
+    <p>São <b>26 questões</b>: múltipla escolha, <b>números romanos</b>, <b>somatório</b> e <b>1 discursiva</b>. Responda todas as <b>25 objetivas</b> para enviar (a discursiva é corrigida pela mãe/responsável pela resposta modelo). Você recebe um <b>código SIM</b> para liberar o gabarito comentado.</p>
+  </div>
+
+  <div id="perguntas"></div>
+
+  <div class="barra">
+    <button class="btn" id="btnEnviar" onclick="enviar()" disabled>Enviar simulado (0/25)</button>
+  </div>
+
+  <div class="resultado" id="resultado">
+    <h2 id="rTitulo"></h2>
+    <p>Código para os pais liberarem o gabarito comentado:</p>
+    <div class="codigo" id="rCodigo"></div>
+    <p class="sub">A discursiva (questão 26) não entra na nota automática — confira pela resposta modelo.</p>
+  </div>
+
+  <div class="trava" id="trava" style="display:none">
+    🔒 <b>Gabarito comentado</b> — digite o código SIM:<br><br>
+    <input id="codIn" placeholder="SIM-XX-YY"><br><br>
+    <button class="btn" onclick="abrirGab()">Abrir gabarito</button>
+    <div id="erroCod" style="color:var(--vermelho);font-size:13px;margin-top:8px"></div>
+  </div>
+
+  <div class="rodape-nav">
+    <a href="resumo.html">← Resumo</a>
+    <a href="index.html">🏠 Início</a>
+  </div>
+</div>
+
+<div class="modal-fundo" id="modal"><div class="modal"><p id="modalTxt"></p><button onclick="fecharModal()">Ok</button></div></div>
+
+<script>
+// tipos: mc (múltipla escolha), rom (números romanos = mc especial), soma (somatório), disc (discursiva)
+var Q=[
+ {tipo:"mc",q:"População absoluta é:",pts:"0,5",
+  opts:[{t:"o total de habitantes de um lugar.",c:true,e:"Correta: é o número total de pessoas."},
+        {t:"a quantidade de habitantes por km².",c:false,e:"Isso é densidade (população relativa)."},
+        {t:"o número de filhos por mulher.",c:false,e:"Isso é a taxa de fecundidade."},
+        {t:"a diferença entre imigrantes e emigrantes.",c:false,e:"Isso é o saldo migratório."}]},
+ {tipo:"mc",q:"Um país populoso e pouco povoado tem:",pts:"0,5",
+  opts:[{t:"muita gente no total e densidade baixa.",c:true,e:"Correta: é o caso do Brasil, território enorme."},
+        {t:"pouca gente e densidade alta.",c:false,e:"Isso é pouco populoso e muito povoado (Malta)."},
+        {t:"população distribuída de forma igual.",c:false,e:"Populoso/povoado não fala de igualdade de distribuição."},
+        {t:"crescimento vegetativo negativo garantido.",c:false,e:"Não há relação obrigatória com crescimento vegetativo."}]},
+ {tipo:"mc",q:"A densidade demográfica é calculada por:",pts:"0,5",
+  opts:[{t:"população absoluta ÷ área.",c:true,e:"Correta: habitantes por km²."},
+        {t:"natalidade − mortalidade.",c:false,e:"Isso é o crescimento vegetativo."},
+        {t:"área ÷ população absoluta.",c:false,e:"A conta está invertida."},
+        {t:"nascimentos × mortes.",c:false,e:"Não existe essa fórmula."}]},
+ {tipo:"mc",q:"Os vazios demográficos costumam ocorrer em:",pts:"0,5",
+  opts:[{t:"áreas com natureza difícil (desertos, florestas densas, regiões geladas).",c:true,e:"Correta: fatores naturais desfavoráveis."},
+        {t:"grandes capitais.",c:false,e:"Capitais têm alta concentração."},
+        {t:"o litoral do Sudeste.",c:false,e:"O litoral leste é muito povoado."},
+        {t:"zonas industriais.",c:false,e:"Indústria atrai população."}]},
+ {tipo:"mc",q:"Mais de 80% da população brasileira vive nas regiões:",pts:"0,5",
+  opts:[{t:"Nordeste, Sudeste e Sul.",c:true,e:"Correta: concentração no leste, herança da colonização."},
+        {t:"Norte e Centro-Oeste.",c:false,e:"Juntas têm menos de 20%."},
+        {t:"apenas Sudeste.",c:false,e:"Não é só o Sudeste."},
+        {t:"distribuídas igualmente pelo país.",c:false,e:"A distribuição é desigual."}]},
+ {tipo:"mc",q:"O crescimento vegetativo (ou natural) é:",pts:"0,5",
+  opts:[{t:"natalidade menos mortalidade.",c:true,e:"Correta."},
+        {t:"imigração menos emigração.",c:false,e:"Isso é o saldo migratório."},
+        {t:"a soma de nascimentos e mortes.",c:false,e:"É a diferença, não a soma."},
+        {t:"o total de habitantes.",c:false,e:"Isso é a população absoluta."}]},
+ {tipo:"mc",q:"Países da Europa costumam ter crescimento vegetativo negativo porque:",pts:"0,5",
+  opts:[{t:"morrem mais pessoas do que nascem.",c:true,e:"Correta: mortalidade maior que natalidade."},
+        {t:"nascem muito mais pessoas do que morrem.",c:false,e:"Isso seria crescimento positivo."},
+        {t:"a fecundidade é altíssima.",c:false,e:"Ao contrário, a fecundidade europeia é baixa."},
+        {t:"não fazem censo.",c:false,e:"Não tem relação com censo."}]},
+ {tipo:"mc",q:"A taxa de fecundidade considera, no cálculo do IBGE, mulheres com idade entre:",pts:"0,5",
+  opts:[{t:"15 e 49 anos.",c:true,e:"Correta: é o período reprodutivo considerado."},
+        {t:"0 e 14 anos.",c:false,e:"Essa faixa não é fértil."},
+        {t:"18 e 60 anos.",c:false,e:"Não é a faixa usada."},
+        {t:"20 e 40 anos.",c:false,e:"O IBGE usa 15 a 49 anos."}]},
+ {tipo:"mc",q:"Na pirâmide etária, uma BASE larga indica:",pts:"0,5",
+  opts:[{t:"muitas crianças e jovens (natalidade alta).",c:true,e:"Correta: base = mais novos."},
+        {t:"muitos idosos.",c:false,e:"Idosos ficam no topo."},
+        {t:"predomínio de adultos.",c:false,e:"Adultos ficam no corpo."},
+        {t:"população em extinção.",c:false,e:"Base larga é sinal de população jovem, não em extinção."}]},
+ {tipo:"mc",q:"Uma pirâmide com base estreita e topo largo é típica de país:",pts:"0,5",
+  opts:[{t:"desenvolvido, com muitos idosos e natalidade baixa.",c:true,e:"Correta: Alemanha, Japão."},
+        {t:"subdesenvolvido, com natalidade altíssima.",c:false,e:"Esse tem base larga."},
+        {t:"sem nenhuma criança.",c:false,e:"Sempre há crianças, só em menor proporção."},
+        {t:"em explosão demográfica.",c:false,e:"Explosão demográfica dá base larga."}]},
+ {tipo:"mc",q:"A transição demográfica é a passagem de:",pts:"0,5",
+  opts:[{t:"altas taxas de natalidade e mortalidade para taxas baixas.",c:true,e:"Correta: primeiro cai a mortalidade, depois a natalidade."},
+        {t:"campo para cidade apenas.",c:false,e:"Isso é êxodo rural, não transição demográfica."},
+        {t:"país pobre para país rico.",c:false,e:"São conceitos diferentes."},
+        {t:"setor primário para terciário.",c:false,e:"Isso é mudança de setor econômico."}]},
+ {tipo:"mc",q:"O Censo Demográfico do Brasil é realizado:",pts:"0,5",
+  opts:[{t:"pelo IBGE, aproximadamente a cada dez anos.",c:true,e:"Correta."},
+        {t:"pela ONU, todo ano.",c:false,e:"Quem faz é o IBGE."},
+        {t:"pelas escolas, a cada dois anos.",c:false,e:"Não são as escolas."},
+        {t:"só quando há guerra.",c:false,e:"Não tem relação com guerra."}]},
+ {tipo:"mc",q:"O envelhecimento da população brasileira exige, sobretudo, mudanças em:",pts:"0,5",
+  opts:[{t:"regras da previdência social (aposentadoria).",c:true,e:"Correta: é o principal impacto citado."},
+        {t:"número de creches.",c:false,e:"Creches ligam-se às crianças, que diminuem."},
+        {t:"produção de brinquedos.",c:false,e:"Não é o desafio central."},
+        {t:"quantidade de maternidades.",c:false,e:"O foco do envelhecimento é a previdência."}]},
+ {tipo:"mc",q:"O Estatuto do Idoso garante direitos às pessoas com:",pts:"0,5",
+  opts:[{t:"60 anos ou mais.",c:true,e:"Correta: Lei de 2003."},
+        {t:"50 anos ou mais.",c:false,e:"A idade é 60."},
+        {t:"70 anos ou mais.",c:false,e:"A idade é 60."},
+        {t:"qualquer idade.",c:false,e:"É voltado a pessoas de 60 anos ou mais."}]},
+ {tipo:"mc",q:"Fazem parte da PEA:",pts:"0,5",
+  opts:[{t:"pessoas em idade de trabalhar, ocupadas ou procurando emprego.",c:true,e:"Correta."},
+        {t:"apenas aposentados.",c:false,e:"Aposentados estão na PEI."},
+        {t:"somente crianças.",c:false,e:"Crianças estão na PEI."},
+        {t:"apenas quem tem empresa.",c:false,e:"Inclui todos os trabalhadores."}]},
+ {tipo:"mc",q:"No Brasil, o setor que emprega a maior parte da PEA hoje é o:",pts:"0,5",
+  opts:[{t:"terciário (comércio e serviços).",c:true,e:"Correta."},
+        {t:"primário (agropecuária).",c:false,e:"Predominava até a década de 1960."},
+        {t:"secundário (indústria).",c:false,e:"Importante, mas não concentra a maioria hoje."},
+        {t:"quaternário (lazer).",c:false,e:"Não é a classificação usada no capítulo."}]},
+ {tipo:"mc",q:"O setor secundário da economia corresponde a:",pts:"0,5",
+  opts:[{t:"indústria e construção civil.",c:true,e:"Correta: transforma matéria-prima em produtos."},
+        {t:"agricultura e pecuária.",c:false,e:"Isso é o primário."},
+        {t:"comércio e serviços.",c:false,e:"Isso é o terciário."},
+        {t:"extrativismo mineral.",c:false,e:"Extrativismo é primário."}]},
+ {tipo:"mc",q:"Uma medida usada por países para reduzir o impacto do envelhecimento é:",pts:"0,5",
+  opts:[{t:"aumentar a idade mínima da aposentadoria.",c:true,e:"Correta: mantém o idoso mais tempo na PEA."},
+        {t:"proibir a imigração.",c:false,e:"Ao contrário, estimula-se a imigração de gente ativa."},
+        {t:"reduzir benefícios para famílias com filhos.",c:false,e:"Ao contrário, oferecem-se benefícios."},
+        {t:"acabar com a previdência.",c:false,e:"Não é medida citada."}]},
+ {tipo:"mc",q:"O trabalho informal é caracterizado por:",pts:"0,5",
+  opts:[{t:"ausência de registro na carteira de trabalho.",c:true,e:"Correta: sem direitos da CLT e sem previdência."},
+        {t:"salário sempre maior.",c:false,e:"Não garante salário maior."},
+        {t:"garantia de férias e 13º.",c:false,e:"Justamente o que o informal NÃO tem."},
+        {t:"contribuição obrigatória à previdência.",c:false,e:"O informal não contribui para a previdência."}]},
+ {tipo:"mc",q:"Sobre a mulher no mercado de trabalho no Brasil, é correto afirmar:",pts:"0,5",
+  opts:[{t:"ela ainda recebe, em média, menos que o homem.",c:true,e:"Correta: cerca de 80% do salário; mulher negra em desvantagem maior."},
+        {t:"recebe sempre o mesmo salário que o homem.",c:false,e:"Ainda há diferença salarial."},
+        {t:"não pode ter licença-maternidade.",c:false,e:"A licença-maternidade é um direito garantido."},
+        {t:"está proibida de trabalhar na indústria.",c:false,e:"Não há tal proibição."}]},
+ // ROMANOS
+ {tipo:"rom",q:"Analise as afirmativas sobre conceitos demográficos:",pts:"1,0",
+  afirmativas:["População absoluta é o total de habitantes de um lugar.",
+               "Densidade demográfica é população absoluta dividida pela área.",
+               "País populoso é sempre um país povoado.",
+               "Vazios demográficos aparecem em áreas de natureza difícil de ocupar."],
+  opts:[{t:"Apenas I, II e IV estão corretas.",c:true,e:"Correta: I, II e IV são verdadeiras. A III é falsa (populoso ≠ povoado: o Brasil é populoso e pouco povoado)."},
+        {t:"Apenas I e III estão corretas.",c:false,e:"A III é falsa e a II e a IV também estão corretas."},
+        {t:"Todas estão corretas.",c:false,e:"A III é falsa."},
+        {t:"Apenas II e III estão corretas.",c:false,e:"A III é falsa; I e IV são verdadeiras."}]},
+ {tipo:"rom",q:"Sobre pirâmides etárias e transição demográfica, analise:",pts:"1,0",
+  afirmativas:["Na pirâmide, a idade aumenta da base para o topo.",
+               "Países desenvolvidos têm base larga e topo estreito.",
+               "A transição demográfica começa com a queda da mortalidade.",
+               "O envelhecimento pressiona a previdência social."],
+  opts:[{t:"Apenas I, III e IV estão corretas.",c:true,e:"Correta: a II é falsa (desenvolvido tem base ESTREITA e topo largo)."},
+        {t:"Apenas I e II estão corretas.",c:false,e:"A II é falsa e III e IV são verdadeiras."},
+        {t:"Todas estão corretas.",c:false,e:"A II é falsa."},
+        {t:"Apenas II e IV estão corretas.",c:false,e:"A II é falsa; I e III são verdadeiras."}]},
+ {tipo:"rom",q:"Sobre a PEA e os setores da economia, analise:",pts:"1,0",
+  afirmativas:["A PEA inclui quem trabalha e quem procura emprego.",
+               "O setor primário reúne a indústria e a construção civil.",
+               "No Brasil, a maioria da PEA está no setor terciário.",
+               "O trabalho informal não dá direito a férias e 13º salário."],
+  opts:[{t:"Apenas I, III e IV estão corretas.",c:true,e:"Correta: a II é falsa (indústria e construção são do setor SECUNDÁRIO)."},
+        {t:"Apenas I e II estão corretas.",c:false,e:"A II é falsa; III e IV são verdadeiras."},
+        {t:"Apenas III e IV estão corretas.",c:false,e:"A I também é verdadeira."},
+        {t:"Todas estão corretas.",c:false,e:"A II é falsa."}]},
+ // SOMATÓRIO
+ {tipo:"soma",q:"(Somatório) Some os números das afirmativas CORRETAS sobre a população brasileira:",pts:"1,0",
+  itens:[{n:1,txt:"O Brasil é um país populoso.",v:true},
+         {n:2,txt:"A maior parte da população vive na região Norte.",v:false},
+         {n:4,txt:"A população brasileira está envelhecendo.",v:true},
+         {n:8,txt:"O Censo é realizado pelo IBGE.",v:true},
+         {n:16,txt:"O Brasil tem alta densidade demográfica em todo o território.",v:false}],
+  e:"Corretas: 01 (populoso) + 04 (envelhecendo) + 08 (IBGE) = 13. A 02 é falsa (a maioria vive no leste, não no Norte) e a 16 é falsa (a densidade média é baixa)."},
+ {tipo:"soma",q:"(Somatório) Some os números das afirmativas CORRETAS sobre trabalho e população economicamente ativa:",pts:"1,0",
+  itens:[{n:1,txt:"A PEA inclui ocupados e desocupados (procurando emprego).",v:true},
+         {n:2,txt:"O setor terciário é o comércio e os serviços.",v:true},
+         {n:4,txt:"O trabalho infantil é permitido a partir dos 10 anos.",v:false},
+         {n:8,txt:"Aumentar a idade da aposentadoria é uma medida contra o envelhecimento.",v:true},
+         {n:16,txt:"O trabalhador informal contribui normalmente para a previdência.",v:false}],
+  e:"Corretas: 01 + 02 + 08 = 11. A 04 é falsa (trabalho proibido antes dos 18; aprendiz só a partir dos 14) e a 16 é falsa (o informal NÃO contribui para a previdência)."},
+ // DISCURSIVA
+ {tipo:"disc",q:"(Discursiva) Explique o que é o envelhecimento da população brasileira, cite dois fatores que o causam e um desafio que ele traz para o país.",pts:"2,0",
+  modelo:"O envelhecimento é o aumento da proporção de idosos na população. É causado principalmente pela queda da taxa de natalidade (as pessoas têm menos filhos) e pelo aumento da expectativa de vida (as pessoas vivem mais, graças a saúde, saneamento e alimentação melhores). Um desafio importante é a pressão sobre a previdência social: com mais aposentados e menos trabalhadores na ativa contribuindo, fica mais difícil equilibrar as contas. Também exige mais serviços de saúde para idosos."}
+];
+
+var CHAVE="geo7_censo_simulado_v1";
+var mem={};
+var estado=carregar();
+var ordemOpts={};
+function carregar(){try{var s=localStorage.getItem(CHAVE);if(s)return JSON.parse(s);}catch(e){if(mem[CHAVE])return JSON.parse(mem[CHAVE]);}
+  return {sel:{},soma:{},disc:"",enviado:false,codigo:"",acertos:0,gabAberto:false};}
+function salvar(){var s=JSON.stringify(estado);try{localStorage.setItem(CHAVE,s);}catch(e){mem[CHAVE]=s;}
+  document.getElementById('salvoFlag').textContent="Salvo às "+new Date().toLocaleTimeString('pt-BR');}
+function embaralha(n,seed){var arr=[];for(var i=0;i<n;i++)arr.push(i);var s=seed;
+  for(var i=arr.length-1;i>0;i--){s=(s*9301+49297)%233280;var j=Math.floor(s/233280*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
+function letra(i){return "ABCDE".charAt(i);}
+function rom(i){return ["I","II","III","IV","V"][i];}
+
+// nº de objetivas (mc+rom+soma)
+function totalObj(){var n=0;Q.forEach(function(q){if(q.tipo!=="disc")n++;});return n;}
+
+function render(){
+  Q.forEach(function(qq,qi){ if(qq.opts) ordemOpts[qi]=embaralha(qq.opts.length,qi*13+5); });
+  var cont=document.getElementById('perguntas');cont.innerHTML="";
+  Q.forEach(function(qq,qi){
+    var div=document.createElement('div');div.className="q";div.id="q"+qi;
+    var tagTxt = qq.tipo==="rom"?"NÚMEROS ROMANOS":qq.tipo==="soma"?"SOMATÓRIO":qq.tipo==="disc"?"DISCURSIVA":"OBJETIVA";
+    var h='<div class="qhead"><span class="qnum">Questão '+(qi+1)+' de 26 <span class="tag">'+tagTxt+'</span></span><span class="pts">('+qq.pts+')</span></div>';
+    h+='<div class="qtxt">'+qq.q+'</div>';
+    if(qq.afirmativas){ qq.afirmativas.forEach(function(a,ai){ h+='<div class="afirm"><b>'+rom(ai)+'.</b> '+a+'</div>'; }); }
+    if(qq.tipo==="mc"||qq.tipo==="rom"){
+      ordemOpts[qi].forEach(function(oi,pos){
+        var op=qq.opts[oi];var sel=estado.sel[qi]===oi;
+        h+='<div class="opt'+(sel?" sel":"")+'" id="o'+qi+"_"+oi+'" onclick="escolher('+qi+','+oi+')"><span class="letra">'+letra(pos)+'</span><span>'+op.t+'</span></div>'+
+           '<div class="expl" id="e'+qi+"_"+oi+'">'+op.e+'</div>';
+      });
+    } else if(qq.tipo==="soma"){
+      qq.itens.forEach(function(it){ h+='<div class="afirm"><b>'+(it.n<10?"0":"")+it.n+'.</b> '+it.txt+'</div>'; });
+      var val=estado.soma[qi]!==undefined?estado.soma[qi]:"";
+      h+='<div class="somabox"><span>Soma =</span><input type="number" id="s'+qi+'" value="'+val+'" oninput="digSoma('+qi+')" placeholder="00"></div>';
+      h+='<div class="expl" id="es'+qi+'">'+qq.e+'</div>';
+    } else if(qq.tipo==="disc"){
+      h+='<textarea id="d'+qi+'" oninput="digDisc('+qi+')" placeholder="Escreva sua resposta...">'+((estado.disc||"").replace(/&/g,"&amp;").replace(/</g,"&lt;"))+'</textarea>';
+      h+='<div class="modelo" id="md'+qi+'"><b>Resposta modelo (para a mãe corrigir):</b> '+qq.modelo+'</div>';
+    }
+    div.innerHTML=h;cont.appendChild(div);
+  });
+  atualizarBtn();
+  if(estado.enviado){ mostrarResultado(); if(estado.gabAberto) mostrarGabarito(); else document.getElementById('trava').style.display="block"; }
+}
+function escolher(qi,oi){ if(estado.enviado)return; estado.sel[qi]=oi;
+  Q[qi].opts.forEach(function(o,k){var el=document.getElementById('o'+qi+"_"+k);if(el)el.classList.remove('sel');});
+  document.getElementById('o'+qi+"_"+oi).classList.add('sel');salvar();atualizarBtn();}
+function digSoma(qi){ if(estado.enviado)return; var v=document.getElementById('s'+qi).value; estado.soma[qi]=v===""?"":parseInt(v,10); salvar();atualizarBtn();}
+function digDisc(qi){ if(estado.enviado)return; estado.disc=document.getElementById('d'+qi).value; salvar();}
+function respondidas(){
+  var n=0;
+  Q.forEach(function(qq,qi){
+    if(qq.tipo==="mc"||qq.tipo==="rom"){ if(estado.sel[qi]!==undefined) n++; }
+    else if(qq.tipo==="soma"){ if(estado.soma[qi]!==undefined && estado.soma[qi]!=="") n++; }
+  });
+  return n;
+}
+function atualizarBtn(){var n=respondidas();var bt=document.getElementById('btnEnviar');
+  bt.textContent="Enviar simulado ("+n+"/"+totalObj()+")";bt.disabled=n<totalObj()||estado.enviado;}
+function gerarCodigo(ac){var L="ABCDEFGHJKLMNPQRSTUVWXYZ";var y1=L.charAt(Math.floor(Math.random()*L.length));var y2=L.charAt(Math.floor(Math.random()*L.length));
+  var xx=(ac<10?"0":"")+ac;return "SIM-"+xx+"-"+y1+y2;}
+function enviar(){
+  if(respondidas()<totalObj())return;
+  var ac=0;
+  Q.forEach(function(qq,qi){
+    if(qq.tipo==="mc"||qq.tipo==="rom"){ if(qq.opts[estado.sel[qi]] && qq.opts[estado.sel[qi]].c) ac++; }
+    else if(qq.tipo==="soma"){ var somaCerta=0; qq.itens.forEach(function(it){if(it.v)somaCerta+=it.n;}); if(parseInt(estado.soma[qi],10)===somaCerta) ac++; }
+  });
+  estado.acertos=ac;estado.codigo=gerarCodigo(ac);estado.enviado=true;salvar();render();
+  window.scrollTo({top:document.getElementById('resultado').offsetTop-40,behavior:'smooth'});
+}
+function mostrarResultado(){
+  document.getElementById('resultado').classList.add('ver');
+  document.getElementById('rTitulo').textContent="Você acertou "+estado.acertos+" de "+totalObj()+" objetivas! 🎉";
+  document.getElementById('rCodigo').textContent=estado.codigo;
+  var bt=document.getElementById('btnEnviar');bt.disabled=true;bt.textContent="Simulado enviado ✓";
+}
+function abrirGab(){var v=document.getElementById('codIn').value.trim().toUpperCase().replace(/\s/g,"");
+  if(v===estado.codigo){estado.gabAberto=true;salvar();mostrarGabarito();}
+  else document.getElementById('erroCod').textContent="Código incorreto. Confira o código SIM mostrado acima.";}
+function mostrarGabarito(){
+  document.getElementById('trava').style.display="none";
+  Q.forEach(function(qq,qi){
+    if(qq.tipo==="mc"||qq.tipo==="rom"){
+      qq.opts.forEach(function(op,oi){
+        var el=document.getElementById('o'+qi+"_"+oi);var ex=document.getElementById('e'+qi+"_"+oi);if(!el)return;
+        el.classList.remove('sel');
+        if(op.c){el.classList.add('certa');ex.classList.add('ver','boa');}
+        else if(estado.sel[qi]===oi){el.classList.add('errada');ex.classList.add('ver');}
+        else el.classList.add('neutra');
+      });
+    } else if(qq.tipo==="soma"){ var ex=document.getElementById('es'+qi); if(ex) ex.classList.add('ver'); var inp=document.getElementById('s'+qi); if(inp) inp.disabled=true; }
+    else if(qq.tipo==="disc"){ var md=document.getElementById('md'+qi); if(md) md.classList.add('ver'); }
+  });
+}
+function modal(t){document.getElementById('modalTxt').innerHTML=t;document.getElementById('modal').classList.add('ver');}
+function fecharModal(){document.getElementById('modal').classList.remove('ver');}
+function exportar(){var b=new Blob([JSON.stringify(estado,null,2)],{type:"application/json"});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download="simulado-geo7-censo.json";a.click();}
+function importar(ev){var f=ev.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{estado=JSON.parse(r.result);salvar();render();modal("Importado! ✅");}catch(e){modal("Arquivo inválido.");}};r.readAsText(f);}
+function zerar(){document.getElementById('modalTxt').innerHTML="Apagar todas as respostas do Simulado?<br><br><button onclick='confZerar()' style='background:var(--vermelho);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer'>Sim, apagar</button>";document.getElementById('modal').classList.add('ver');}
+function confZerar(){estado={sel:{},soma:{},disc:"",enviado:false,codigo:"",acertos:0,gabAberto:false};try{localStorage.removeItem(CHAVE);}catch(e){}mem={};document.getElementById('resultado').classList.remove('ver');document.getElementById('trava').style.display="none";fecharModal();render();}
+render();
+</script>
+</body>
+</html>
