@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz · Central do Censo · Geografia 7º</title>
+<style>
+:root{--fundo:#0b1526;--painel:#132038;--painel2:#1b2c4a;--ciano:#38d6e0;--ambar:#f5b544;
+ --verde:#3ddc84;--vermelho:#ff6b6b;--cinza:#3a4a66;--texto:#eaf2ff;--suave:#9db3d4;--linha:#263a5e;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+ background:radial-gradient(1200px 600px at 50% -10%,#16264a,var(--fundo));color:var(--texto);line-height:1.6;padding-bottom:60px}
+header{padding:26px 18px 20px;text-align:center;border-bottom:1px solid var(--linha);background:linear-gradient(180deg,#0e1b34,#0b1526)}
+.badge{display:inline-block;background:var(--ciano);color:#04222a;font-weight:800;padding:4px 12px;border-radius:20px;font-size:12px}
+h1{margin:12px 0 4px;font-size:24px}.sub{color:var(--suave);font-size:14px;margin:0}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+nav.abas{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+nav.abas a{color:var(--suave);text-decoration:none;font-size:13px;border:1px solid var(--linha);padding:6px 12px;border-radius:18px;background:var(--painel)}
+nav.abas a.on{background:var(--ciano);color:#04222a;font-weight:700;border-color:var(--ciano)}
+.painel-salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:var(--painel);
+ border:1px solid var(--linha);border-radius:14px;padding:10px;margin:14px 0;font-size:13px}
+.painel-salvar button{background:var(--painel2);color:var(--texto);border:1px solid var(--linha);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:13px}
+.intro{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:16px 18px;margin:14px 0}
+.q{background:var(--painel);border:1px solid var(--linha);border-radius:16px;padding:16px 18px;margin:14px 0}
+.qnum{font-size:11px;color:var(--ciano);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.qtxt{font-weight:600;margin:6px 0 12px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--linha);border-radius:10px;padding:10px 12px;margin:7px 0;cursor:pointer;background:#0d1a30;transition:.15s}
+.opt:hover{border-color:var(--ciano)}
+.opt.sel{border-color:var(--ciano);background:#12283f}
+.opt .letra{font-weight:800;color:var(--ciano);min-width:18px}
+.opt.certa{border-color:var(--verde);background:rgba(61,220,132,.12)}
+.opt.errada{border-color:var(--vermelho);background:rgba(255,107,107,.1)}
+.opt.neutra{opacity:.75}
+.expl{font-size:13px;margin-top:8px;padding:9px 11px;border-radius:8px;background:#0d1a30;border-left:3px solid var(--cinza);display:none}
+.expl.ver{display:block}
+.expl.boa{border-left-color:var(--verde)}
+.barra{position:sticky;bottom:0;background:linear-gradient(0deg,#0b1526,#0b1526cc);padding:12px;text-align:center;border-top:1px solid var(--linha)}
+.btn{background:var(--ciano);color:#04222a;border:none;border-radius:12px;padding:12px 26px;font-weight:800;cursor:pointer;font-size:15px}
+.btn:disabled{background:var(--painel2);color:var(--suave);cursor:not-allowed}
+.resultado{background:var(--painel);border:1px solid var(--ciano);border-radius:16px;padding:20px;margin:16px 0;text-align:center;display:none}
+.resultado.ver{display:block}
+.codigo{font-size:26px;font-weight:800;color:var(--ambar);letter-spacing:2px;margin:8px 0}
+.gab-area{display:none}.gab-area.ver{display:block}
+.trava{background:#2a2418;border:1px solid var(--ambar);border-radius:12px;padding:14px;margin:14px 0;text-align:center;font-size:14px}
+.trava input{background:#0d1a30;border:1px solid var(--linha);color:var(--texto);border-radius:8px;padding:8px;font-size:16px;text-align:center;width:150px;letter-spacing:2px;text-transform:uppercase}
+.rodape-nav{display:flex;justify-content:space-between;margin:26px 0;font-size:14px}
+.rodape-nav a{color:var(--ciano);text-decoration:none;font-weight:700}
+.modal-fundo{position:fixed;inset:0;background:rgba(4,10,22,.75);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal-fundo.ver{display:flex}
+.modal{background:var(--painel);border:1px solid var(--ciano);border-radius:16px;padding:22px;max-width:420px;text-align:center}
+.modal button{background:var(--ciano);color:#04222a;border:none;border-radius:10px;padding:9px 18px;font-weight:700;cursor:pointer;margin-top:12px}
+.salvo-flag{font-size:12px;color:var(--suave)}
+</style>
+</head>
+<body>
+<header>
+  <span class="badge">GEOGRAFIA · 7º ANO</span>
+  <h1>🎯 Quiz — Central do Censo</h1>
+  <p class="sub">15 perguntas · Capítulos 13, 14 e 15</p>
+</header>
+<div class="wrap">
+  <nav class="abas">
+    <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+    <a href="quiz.html" class="on">🎯 Quiz</a>
+    <a href="resumo.html">🗺️ Resumo</a>
+    <a href="simulado.html">📝 Simulado</a>
+    <a href="index.html">🏠 Início</a>
+  </nav>
+  <div class="painel-salvar">
+    <span class="salvo-flag" id="salvoFlag">Suas respostas são salvas automaticamente.</span>
+    <button onclick="exportar()">📥 Exportar</button>
+    <button onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input type="file" id="imp" style="display:none" accept=".json" onchange="importar(event)">
+    <button onclick="zerar()">🗑️ Zerar tudo</button>
+  </div>
+  <div class="intro">
+    <p>Responda as 15 perguntas e clique em <b>Enviar respostas</b> no fim. Você recebe um <b>código MED</b> para a mãe/responsável liberar o gabarito comentado. É preciso responder todas antes de enviar.</p>
+  </div>
+
+  <div id="perguntas"></div>
+
+  <div class="barra">
+    <button class="btn" id="btnEnviar" onclick="enviar()" disabled>Enviar respostas (0/15)</button>
+  </div>
+
+  <div class="resultado" id="resultado">
+    <h2 id="rTitulo"></h2>
+    <p>Código para os pais liberarem o gabarito:</p>
+    <div class="codigo" id="rCodigo"></div>
+    <p class="sub">Guarde este código. Ele fica salvo e não muda ao reabrir.</p>
+  </div>
+
+  <div class="trava" id="trava" style="display:none">
+    🔒 <b>Gabarito comentado</b> — digite o código MED para abrir:<br><br>
+    <input id="codIn" placeholder="MED-XX-YY"><br><br>
+    <button class="btn" onclick="abrirGab()">Abrir gabarito</button>
+    <div id="erroCod" style="color:var(--vermelho);font-size:13px;margin-top:8px"></div>
+  </div>
+
+  <div class="rodape-nav">
+    <a href="leitura-guiada.html">← Leitura Guiada</a>
+    <a href="resumo.html">Próximo: 🗺️ Resumo →</a>
+  </div>
+</div>
+
+<div class="modal-fundo" id="modal"><div class="modal"><p id="modalTxt"></p><button onclick="fecharModal()">Ok</button></div></div>
+
+<script>
+var QUESTOES=[
+ {q:"O que é a população absoluta de um país?",
+  opts:[{t:"O número total de habitantes que vivem nele.",c:true,e:"Correta: população absoluta é o total de pessoas do lugar."},
+        {t:"A quantidade de habitantes por km² (concentração).",c:false,e:"Isso é a densidade demográfica (população relativa), não a absoluta."},
+        {t:"O número médio de filhos por mulher.",c:false,e:"Isso é a taxa de fecundidade."},
+        {t:"A diferença entre nascimentos e mortes.",c:false,e:"Isso é o crescimento vegetativo."}]},
+ {q:"O Brasil é um país populoso, porém pouco povoado. Isso significa que:",
+  opts:[{t:"tem muita gente no total, mas baixa densidade demográfica.",c:true,e:"Correta: populoso = muita gente; pouco povoado = densidade baixa por causa do território enorme."},
+        {t:"tem pouca gente e alta densidade.",c:false,e:"Ao contrário: o Brasil tem muita gente."},
+        {t:"tem população distribuída de forma igual.",c:false,e:"A distribuição brasileira é bem desigual."},
+        {t:"não realiza censo demográfico.",c:false,e:"O Brasil realiza o censo pelo IBGE."}]},
+ {q:"Como se calcula a densidade demográfica (população relativa)?",
+  opts:[{t:"População absoluta dividida pela área do território.",c:true,e:"Correta: é habitantes ÷ km²."},
+        {t:"Nascimentos menos mortes.",c:false,e:"Isso é o crescimento vegetativo."},
+        {t:"Imigrantes menos emigrantes.",c:false,e:"Isso é o saldo migratório."},
+        {t:"População absoluta multiplicada pela taxa de fecundidade.",c:false,e:"Não existe esse cálculo."}]},
+ {q:"Os 'vazios demográficos' costumam aparecer em áreas com:",
+  opts:[{t:"natureza difícil de ocupar, como desertos, regiões geladas e florestas densas.",c:true,e:"Correta: fatores naturais desfavoráveis explicam a baixa ocupação."},
+        {t:"grandes cidades e muitas indústrias.",c:false,e:"Nesses lugares há alta concentração, não vazio."},
+        {t:"litoral do Nordeste e do Sudeste.",c:false,e:"O litoral leste é justamente muito povoado."},
+        {t:"maior oferta de empregos.",c:false,e:"Emprego atrai gente, gerando concentração."}]},
+ {q:"Onde se concentra a maior parte da população brasileira?",
+  opts:[{t:"Nas regiões Nordeste, Sudeste e Sul, perto do litoral (leste).",c:true,e:"Correta: mais de 80% vive nessas regiões, herança da colonização pelo litoral."},
+        {t:"Na região Norte, dentro da Floresta Amazônica.",c:false,e:"O Norte tem a menor densidade do país."},
+        {t:"Espalhada igualmente por todo o território.",c:false,e:"A distribuição é desigual."},
+        {t:"Somente no Centro-Oeste.",c:false,e:"O Centro-Oeste é uma das áreas menos povoadas."}]},
+ {q:"Crescimento vegetativo é a diferença entre:",
+  opts:[{t:"taxa de natalidade e taxa de mortalidade.",c:true,e:"Correta: natalidade − mortalidade = crescimento vegetativo (ou natural)."},
+        {t:"imigração e emigração.",c:false,e:"Isso é o saldo migratório."},
+        {t:"população absoluta e população relativa.",c:false,e:"Não há esse cálculo."},
+        {t:"número de homens e de mulheres.",c:false,e:"Não tem relação com o crescimento vegetativo."}]},
+ {q:"Um país onde morrem mais pessoas do que nascem tem crescimento vegetativo:",
+  opts:[{t:"negativo.",c:true,e:"Correta: mortalidade maior que natalidade = crescimento vegetativo negativo (comum na Europa)."},
+        {t:"positivo.",c:false,e:"Positivo é quando nasce mais gente do que morre."},
+        {t:"nulo.",c:false,e:"Nulo é quando natalidade e mortalidade são iguais."},
+        {t:"migratório.",c:false,e:"Isso se refere a entrada e saída de pessoas."}]},
+ {q:"A taxa de fecundidade mede:",
+  opts:[{t:"o número médio de filhos que uma mulher tem ao longo da vida.",c:true,e:"Correta: o IBGE considera mulheres de 15 a 49 anos."},
+        {t:"quantas pessoas morrem por mil habitantes.",c:false,e:"Isso é a taxa de mortalidade."},
+        {t:"quantas pessoas nascem por mil habitantes.",c:false,e:"Isso é a taxa de natalidade."},
+        {t:"a densidade de gente por km².",c:false,e:"Isso é a densidade demográfica."}]},
+ {q:"Numa pirâmide etária, o TOPO representa:",
+  opts:[{t:"os idosos.",c:true,e:"Correta: a idade aumenta da base para o topo; o topo são os idosos."},
+        {t:"as crianças e jovens.",c:false,e:"Esses ficam na base."},
+        {t:"os adultos que trabalham.",c:false,e:"Os adultos ficam no corpo (meio)."},
+        {t:"apenas os homens.",c:false,e:"Cada lado é um sexo; o topo indica idade, não sexo."}]},
+ {q:"Um país desenvolvido, como a Alemanha, costuma ter pirâmide etária com:",
+  opts:[{t:"base estreita e topo alargado (poucas crianças, muitos idosos).",c:true,e:"Correta: natalidade baixa e expectativa de vida alta."},
+        {t:"base larga e topo quase inexistente.",c:false,e:"Esse é o perfil de país subdesenvolvido."},
+        {t:"formato de triângulo com base enorme.",c:false,e:"Isso indica natalidade alta, típica de subdesenvolvidos."},
+        {t:"apenas idosos e nenhuma criança.",c:false,e:"Exagero: sempre há crianças, apenas em menor proporção."}]},
+ {q:"A transição demográfica é o processo em que um país passa de:",
+  opts:[{t:"altas taxas de natalidade e mortalidade para taxas baixas.",c:true,e:"Correta: primeiro cai a mortalidade, depois a natalidade."},
+        {t:"país povoado para país populoso.",c:false,e:"São conceitos diferentes, não é transição demográfica."},
+        {t:"setor primário para setor secundário apenas.",c:false,e:"Isso é mudança de setor econômico, não transição demográfica."},
+        {t:"imigração para emigração.",c:false,e:"Isso é movimento migratório, não transição demográfica."}]},
+ {q:"O Censo Demográfico brasileiro é realizado:",
+  opts:[{t:"pelo IBGE, mais ou menos a cada dez anos.",c:true,e:"Correta: recenseadores visitam as casas e coletam dados da população."},
+        {t:"por escolas, todo ano.",c:false,e:"Não são as escolas nem é anual."},
+        {t:"pela ONU, a cada cinco anos.",c:false,e:"Quem faz o censo do Brasil é o IBGE."},
+        {t:"apenas em anos de eleição.",c:false,e:"Não tem relação com eleições."}]},
+ {q:"O envelhecimento da população brasileira pressiona principalmente:",
+  opts:[{t:"a previdência social (aposentadorias).",c:true,e:"Correta: mais aposentados e menos trabalhadores contribuindo desequilibra as contas."},
+        {t:"a quantidade de creches necessárias.",c:false,e:"Creches ligam-se ao número de crianças, que está diminuindo."},
+        {t:"a produção de brinquedos.",c:false,e:"Não é o principal desafio citado."},
+        {t:"o número de escolas de Ensino Médio.",c:false,e:"O desafio central do envelhecimento é a previdência."}]},
+ {q:"Fazem parte da População Economicamente Ativa (PEA):",
+  opts:[{t:"quem está trabalhando e quem está procurando emprego.",c:true,e:"Correta: ocupados e desocupados em idade de trabalhar."},
+        {t:"apenas os aposentados.",c:false,e:"Aposentados fazem parte da PEI (inativa)."},
+        {t:"somente as crianças.",c:false,e:"Crianças estão na PEI (inativa)."},
+        {t:"apenas os donos de empresa.",c:false,e:"A PEA inclui todos os trabalhadores, não só empregadores."}]},
+ {q:"No Brasil, a maior parte da PEA trabalha hoje no setor:",
+  opts:[{t:"terciário (comércio e serviços).",c:true,e:"Correta: com a urbanização, o terciário passou a empregar a maioria."},
+        {t:"primário (agricultura e extrativismo).",c:false,e:"O primário concentrava a maioria até a década de 1960."},
+        {t:"secundário (indústria).",c:false,e:"A indústria cresceu, mas não é onde está a maioria hoje."},
+        {t:"nenhum, pois quase todos estão desempregados.",c:false,e:"A maioria está ocupada, principalmente no terciário."}]}
+];
+
+var CHAVE="geo7_censo_quiz_v1";
+var mem={};
+var estado=carregar();
+var ordemOpts={}; // por questão, ordem embaralhada de índices
+
+function carregar(){
+  try{var s=localStorage.getItem(CHAVE);if(s)return JSON.parse(s);}catch(e){if(mem[CHAVE])return JSON.parse(mem[CHAVE]);}
+  return {sel:{},enviado:false,codigo:"",acertos:0,gabAberto:false};
+}
+function salvar(){var s=JSON.stringify(estado);try{localStorage.setItem(CHAVE,s);}catch(e){mem[CHAVE]=s;}
+  var d=new Date();document.getElementById('salvoFlag').textContent="Salvo às "+d.toLocaleTimeString('pt-BR');}
+
+// embaralhamento com semente fixa (mesma ordem sempre)
+function embaralha(n,seed){
+  var arr=[];for(var i=0;i<n;i++)arr.push(i);
+  var s=seed;
+  for(var i=arr.length-1;i>0;i--){
+    s=(s*9301+49297)%233280; var j=Math.floor(s/233280*(i+1));
+    var t=arr[i];arr[i]=arr[j];arr[j]=t;
+  }
+  return arr;
+}
+function letra(i){return "ABCDE".charAt(i);}
+
+function render(){
+  QUESTOES.forEach(function(qq,qi){ ordemOpts[qi]=embaralha(qq.opts.length, qi*7+3); });
+  var cont=document.getElementById('perguntas');cont.innerHTML="";
+  QUESTOES.forEach(function(qq,qi){
+    var div=document.createElement('div');div.className="q";div.id="q"+qi;
+    var h='<div class="qnum">Pergunta '+(qi+1)+' de 15</div><div class="qtxt">'+qq.q+'</div>';
+    ordemOpts[qi].forEach(function(oi,pos){
+      var op=qq.opts[oi];
+      var sel=estado.sel[qi]===oi;
+      h+='<div class="opt'+(sel?" sel":"")+'" id="o'+qi+"_"+oi+'" onclick="escolher('+qi+','+oi+')">'+
+         '<span class="letra">'+letra(pos)+'</span><span>'+op.t+'</span></div>'+
+         '<div class="expl" id="e'+qi+"_"+oi+'">'+op.e+'</div>';
+    });
+    div.innerHTML=h;cont.appendChild(div);
+  });
+  atualizarBtn();
+  if(estado.enviado){ mostrarResultado(); if(estado.gabAberto) mostrarGabarito(); else document.getElementById('trava').style.display="block"; }
+}
+function escolher(qi,oi){
+  if(estado.enviado) return;
+  estado.sel[qi]=oi;
+  QUESTOES[qi].opts.forEach(function(o,k){var el=document.getElementById('o'+qi+"_"+k);if(el)el.classList.remove('sel');});
+  document.getElementById('o'+qi+"_"+oi).classList.add('sel');
+  salvar();atualizarBtn();
+}
+function atualizarBtn(){
+  var n=Object.keys(estado.sel).length;
+  var bt=document.getElementById('btnEnviar');
+  bt.textContent="Enviar respostas ("+n+"/15)";
+  bt.disabled = n<15 || estado.enviado;
+}
+function gerarCodigo(ac){
+  var L="ABCDEFGHJKLMNPQRSTUVWXYZ"; // sem I e O
+  var y1=L.charAt(Math.floor(Math.random()*L.length));
+  var y2=L.charAt(Math.floor(Math.random()*L.length));
+  var xx=(ac<10?"0":"")+ac;
+  return "MED-"+xx+"-"+y1+y2;
+}
+function enviar(){
+  if(Object.keys(estado.sel).length<15) return;
+  var ac=0;
+  QUESTOES.forEach(function(qq,qi){ if(qq.opts[estado.sel[qi]] && qq.opts[estado.sel[qi]].c) ac++; });
+  estado.acertos=ac;
+  estado.codigo=gerarCodigo(ac);
+  estado.enviado=true;
+  salvar();
+  render();
+  window.scrollTo({top:document.getElementById('resultado').offsetTop-40,behavior:'smooth'});
+}
+function mostrarResultado(){
+  document.getElementById('resultado').classList.add('ver');
+  document.getElementById('rTitulo').textContent="Você acertou "+estado.acertos+" de 15! 🎉";
+  document.getElementById('rCodigo').textContent=estado.codigo;
+  document.getElementById('btnEnviar').disabled=true;
+  document.getElementById('btnEnviar').textContent="Respostas enviadas ✓";
+}
+function abrirGab(){
+  var v=document.getElementById('codIn').value.trim().toUpperCase().replace(/\s/g,"");
+  if(v===estado.codigo){ estado.gabAberto=true;salvar();mostrarGabarito(); }
+  else document.getElementById('erroCod').textContent="Código incorreto. Confira o código MED mostrado acima.";
+}
+function mostrarGabarito(){
+  document.getElementById('trava').style.display="none";
+  QUESTOES.forEach(function(qq,qi){
+    qq.opts.forEach(function(op,oi){
+      var el=document.getElementById('o'+qi+"_"+oi);
+      var ex=document.getElementById('e'+qi+"_"+oi);
+      if(!el) return;
+      el.classList.remove('sel');
+      if(op.c){ el.classList.add('certa'); ex.classList.add('ver','boa'); }
+      else if(estado.sel[qi]===oi){ el.classList.add('errada'); ex.classList.add('ver'); }
+      else { el.classList.add('neutra'); }
+    });
+  });
+}
+function modal(t){document.getElementById('modalTxt').innerHTML=t;document.getElementById('modal').classList.add('ver');}
+function fecharModal(){document.getElementById('modal').classList.remove('ver');}
+function exportar(){var b=new Blob([JSON.stringify(estado,null,2)],{type:"application/json"});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download="quiz-geo7-censo.json";a.click();}
+function importar(ev){var f=ev.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{estado=JSON.parse(r.result);salvar();render();modal("Importado! ✅");}catch(e){modal("Arquivo inválido.");}};r.readAsText(f);}
+function zerar(){document.getElementById('modalTxt').innerHTML="Apagar todas as respostas do Quiz?<br><br><button onclick='confZerar()' style='background:var(--vermelho);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer'>Sim, apagar</button>";document.getElementById('modal').classList.add('ver');}
+function confZerar(){estado={sel:{},enviado:false,codigo:"",acertos:0,gabAberto:false};try{localStorage.removeItem(CHAVE);}catch(e){}mem={};document.getElementById('resultado').classList.remove('ver');document.getElementById('trava').style.display="none";fecharModal();render();}
+render();
+</script>
+</body>
+</html>
